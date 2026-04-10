@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Template Preview</title>
+  <link rel="stylesheet" href="assets/css/preview.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h1>Email Templates</h1>
+      <p>Custody · Admin Console</p>
+    </div>
+
+    <!-- Custody Front -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Custody Front</div>
+      <!-- 이메일 목록은 나중에 추가 -->
+      <div id="custody-list">
+        <div class="sidebar-item" style="opacity:0.4;cursor:default;">
+          <span class="item-icon">📭</span>
+          <span>템플릿 준비 중</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Console -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Admin Console</div>
+      <div id="admin-list">
+        <div class="sidebar-item" style="opacity:0.4;cursor:default;">
+          <span class="item-icon">📭</span>
+          <span>템플릿 준비 중</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <span class="topbar-title" id="topbar-title">이메일 템플릿 선택</span>
+      <span class="topbar-path" id="topbar-path"></span>
+      <div class="topbar-actions">
+        <button class="btn" onclick="openInNewTab()" id="btn-open" style="display:none;">
+          ↗ 새 탭에서 열기
+        </button>
+        <button class="btn" onclick="copyHtml()" id="btn-copy" style="display:none;">
+          ⧉ HTML 복사
+        </button>
+      </div>
+    </div>
+
+    <div class="preview-area">
+      <div class="iframe-wrap">
+        <!-- Toolbar (hidden until template selected) -->
+        <div class="iframe-toolbar" id="iframe-toolbar" style="display:none;">
+          <span id="toolbar-label">미리보기</span>
+          <div class="viewport-btns">
+            <button class="vp-btn active" onclick="setViewport('desktop', this)">Desktop</button>
+            <button class="vp-btn" onclick="setViewport('mobile', this)">Mobile</button>
+          </div>
+        </div>
+
+        <div class="iframe-container" id="iframe-container">
+          <!-- Welcome state -->
+          <div class="welcome-screen" id="welcome-screen">
+            <div class="icon">✉️</div>
+            <h2>이메일 템플릿 미리보기</h2>
+            <p>왼쪽 사이드바에서 템플릿을 선택하세요</p>
+          </div>
+
+          <iframe id="preview-frame" style="display:none;" title="Email Preview"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Template Registry =====
+    // 이메일 템플릿 추가 시 여기에 등록
+    const TEMPLATES = {
+      'custody-front': [
+        // 예시: { id: 'welcome', label: '가입 환영', file: 'templates/custody-front/welcome.html' }
+      ],
+      'admin-console': [
+        // 예시: { id: 'user-created', label: '사용자 생성 알림', file: 'templates/admin-console/user-created.html' }
+      ]
+    };
+
+    let currentFile = null;
+
+    function renderSidebar() {
+      renderSection('custody-list', TEMPLATES['custody-front'], 'custody');
+      renderSection('admin-list', TEMPLATES['admin-console'], 'admin');
+    }
+
+    function renderSection(containerId, items, type) {
+      const container = document.getElementById(containerId);
+      if (!items || items.length === 0) return;
+
+      container.innerHTML = items.map(item => `
+        <div class="sidebar-item" onclick="loadTemplate('${item.file}', '${item.label}', '${type}')">
+          <span class="item-icon">📄</span>
+          <span>${item.label}</span>
+          <span class="badge ${type}">${type === 'custody' ? 'CF' : 'AC'}</span>
+        </div>
+      `).join('');
+    }
+
+    function loadTemplate(file, label, type) {
+      // Active state
+      document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      currentFile = file;
+      document.getElementById('topbar-title').textContent = label;
+      document.getElementById('topbar-path').textContent = file;
+
+      // Show toolbar & buttons
+      document.getElementById('iframe-toolbar').style.display = 'flex';
+      document.getElementById('btn-open').style.display = 'inline-flex';
+      document.getElementById('btn-copy').style.display = 'inline-flex';
+
+      // Hide welcome, show iframe
+      document.getElementById('welcome-screen').style.display = 'none';
+      const frame = document.getElementById('preview-frame');
+      frame.style.display = 'block';
+      frame.src = file;
+
+      document.getElementById('toolbar-label').textContent = label;
+    }
+
+    function setViewport(size, btn) {
+      document.querySelectorAll('.vp-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const frame = document.getElementById('preview-frame');
+      if (size === 'mobile') {
+        frame.style.maxWidth = '375px';
+        frame.style.width = '375px';
+      } else {
+        frame.style.maxWidth = '680px';
+        frame.style.width = '100%';
+      }
+    }
+
+    function openInNewTab() {
+      if (currentFile) window.open(currentFile, '_blank');
+    }
+
+    async function copyHtml() {
+      if (!currentFile) return;
+      try {
+        const res = await fetch(currentFile);
+        const html = await res.text();
+        await navigator.clipboard.writeText(html);
+
+        const btn = document.getElementById('btn-copy');
+        const orig = btn.textContent;
+        btn.textContent = '✓ 복사됨';
+        setTimeout(() => btn.textContent = orig, 2000);
+      } catch (e) {
+        alert('복사 실패: ' + e.message);
+      }
+    }
+
+    // Init
+    renderSidebar();
+  </script>
+</body>
+</html>
