@@ -84,10 +84,18 @@
     // 이메일 템플릿 추가 시 여기에 등록
     const TEMPLATES = {
       'custody-front': [
-        // 예시: { id: 'welcome', label: '가입 환영', file: 'templates/custody-front/welcome.html' }
+        { id: '01', label: '계정 초대 (임시 비밀번호)',   file: 'templates/custody-front/01-account-invitation.html' },
+        { id: '02', label: '출금 서명 요청',              file: 'templates/custody-front/02-withdrawal-sign-request.html' },
+        { id: '03', label: '출금 완료',                   file: 'templates/custody-front/03-withdrawal-completed.html' },
+        { id: '04', label: '출금 거절',                   file: 'templates/custody-front/04-withdrawal-rejected.html' },
+        { id: '05', label: '입금 보류 발생',              file: 'templates/custody-front/05-deposit-hold.html' },
+        { id: '06', label: '입금 보류 승인',              file: 'templates/custody-front/06-deposit-hold-approved.html' },
+        { id: '07', label: '입금 보류 거절',              file: 'templates/custody-front/07-deposit-hold-rejected.html' },
+        { id: '08', label: 'KYB 만료 임박 (D-40)',       file: 'templates/custody-front/08-kyb-expiry-warning.html' },
+        { id: '09', label: 'KYB 만료 (출금 차단)',       file: 'templates/custody-front/09-kyb-expired.html' },
       ],
       'admin-console': [
-        // 예시: { id: 'user-created', label: '사용자 생성 알림', file: 'templates/admin-console/user-created.html' }
+        // Admin Console 템플릿 추가 예정
       ]
     };
 
