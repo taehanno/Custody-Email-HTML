@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[Karbon.fi] KYB 만료 40일 전 안내</title>
+  <title>[Karbon.fi] KYB 갱신 안내 — 만료 40일 전</title>
   <style>
     body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
     table,td{mso-table-lspace:0pt;mso-table-rspace:0pt;}
@@ -18,33 +18,23 @@
     .logo-text span{color:#4ade80;}
     .company{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;letter-spacing:0.08em;text-transform:uppercase;}
 
-    /* D-day banner */
-    .dday-banner{background:#fff7ed;border-bottom:3px solid #fb923c;padding:20px 40px;text-align:center;}
-    .dday-label{font-size:11px;font-weight:700;color:#c2410c;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
-    .dday-count{font-size:48px;font-weight:900;color:#ea580c;line-height:1;letter-spacing:-0.03em;}
-    .dday-unit{font-size:16px;font-weight:600;color:#c2410c;margin-left:4px;}
+    .body{padding:36px 40px;}
+    .body-lead{font-size:15px;font-weight:600;color:#0d1117;margin:0 0 4px;}
+    .body-sub{font-size:14px;color:#6b7280;margin:0 0 24px;}
+    .body p{font-size:14px;line-height:1.75;color:#374151;margin:0 0 14px;}
 
-    .tag-wrap{padding:28px 40px 0;}
-    .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:4px 10px;border-radius:4px;background:#fff7ed;color:#c2410c;}
-
-    .body{padding:20px 40px 36px;}
-    .body h1{font-size:20px;font-weight:700;color:#0d1117;margin:12px 0 6px;}
-    .body .lead{font-size:14px;color:#6b7280;margin:0 0 24px;line-height:1.6;}
-    .body p{font-size:14px;line-height:1.75;color:#374151;margin:0 0 16px;}
-
-    .info-box{background:#fffdf5;border:1px solid #fed7aa;border-radius:8px;padding:0 20px;margin:20px 0;}
+    .info-box{background:#fffdf5;border:1px solid #fed7aa;border-radius:8px;padding:0 20px;margin:0 0 20px;}
     .info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:13px;border-bottom:1px solid #fde8cc;}
     .info-row:last-child{border-bottom:none;}
-    .info-label{color:#6b7280;font-weight:500;}
+    .info-label{color:#6b7280;font-weight:500;white-space:nowrap;margin-right:16px;}
     .info-value{color:#0d1117;font-weight:600;text-align:right;}
     .info-value.warn{color:#ea580c;}
 
-    .alert-box{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:16px 20px;margin:20px 0;}
-    .alert-box ul{margin:0;padding:0 0 0 16px;}
-    .alert-box li{font-size:13px;color:#92400e;line-height:1.8;}
+    .warn-box{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:14px 18px;margin:0 0 20px;}
+    .warn-box p{font-size:13px;color:#92400e;margin:0;line-height:1.7;}
 
-    .cta-wrap{text-align:center;margin:28px 0 8px;}
-    .cta-btn{display:inline-block;background:#ea580c;color:#ffffff!important;text-decoration:none;font-size:14px;font-weight:700;padding:14px 40px;border-radius:8px;}
+    .contact-note{font-size:14px;color:#374151;margin:0 0 8px;}
+    .contact-note a{color:#3b5bdb;text-decoration:underline;}
 
     .security{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:16px 20px;margin:0 40px 24px;}
     .security-title{font-size:12px;font-weight:700;color:#92400e;margin-bottom:8px;}
@@ -65,57 +55,31 @@
     <div class="company">Infiniteblock Corp.</div>
   </div>
 
-  <!-- D-40 Banner -->
-  <div class="dday-banner">
-    <div class="dday-label">KYB 만료까지</div>
-    <div>
-      <span class="dday-count">D-40</span>
-      <span class="dday-unit">일 남음</span>
-    </div>
-  </div>
-
-  <div class="tag-wrap">
-    <span class="tag">KYB 만료 임박</span>
-  </div>
-
   <div class="body">
-    <h1>KYB 인증 만료가 40일 남았습니다</h1>
-    <p class="lead">KYB 인증이 만료되면 출금 기능이 자동으로 차단됩니다. 만료 전 갱신 절차를 진행해 주세요.</p>
+    <p class="body-lead">귀사의 KYB 인증이 곧 만료됩니다.</p>
+    <p class="body-sub">만료 전에 갱신을 완료해 주세요.</p>
 
     <div class="info-box">
       <div class="info-row">
         <span class="info-label">고객사명</span>
-        <span class="info-value">[고객사명]</span>
+        <span class="info-value">{고객사명}</span>
       </div>
       <div class="info-row">
-        <span class="info-label">Master 계정</span>
-        <span class="info-value">[Master 이메일]</span>
+        <span class="info-label">현재 만료일</span>
+        <span class="info-value warn">{YY-MM-DD}</span>
       </div>
       <div class="info-row">
-        <span class="info-label">KYB 만료일</span>
-        <span class="info-value warn">[YY-MM-DD]</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">안내 발송 일시</span>
-        <span class="info-value">[YY-MM-DD hh:mm] KST</span>
+        <span class="info-label">남은 일수</span>
+        <span class="info-value warn">D-40</span>
       </div>
     </div>
 
-    <div class="alert-box">
-      <ul>
-        <li>KYB 만료 시 출금 기능이 즉시 차단됩니다.</li>
-        <li>만료일 이후 갱신을 진행하더라도 처리 기간 중 출금이 제한될 수 있습니다.</li>
-        <li>갱신 문의는 <a href="mailto:contact@inbl.io" style="color:#c2410c;">contact@inbl.io</a>로 연락해 주세요.</li>
-      </ul>
+    <div class="warn-box">
+      <p>⚠ KYB 만료 시 출금이 자동 차단됩니다.<br />
+      입금 및 조회는 정상 이용 가능합니다.</p>
     </div>
 
-    <div class="cta-wrap">
-      <a href="mailto:contact@inbl.io" class="cta-btn">KYB 갱신 문의하기</a>
-    </div>
-
-    <p style="font-size:12px;color:#9ca3af;text-align:center;">
-      본 이메일은 Master 계정에만 발송됩니다.
-    </p>
+    <p class="contact-note">갱신 관련 문의: <a href="mailto:contact@inbl.io">contact@inbl.io</a></p>
   </div>
 
   <div class="security">
