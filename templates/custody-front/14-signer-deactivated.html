@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[Karbon.fi Admin] KYB 만료 — {법인명} 출금 차단 시작</title>
+  <title>[Karbon.fi] 서명자 계정이 비활성화되었습니다</title>
   <style>
     body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
     table,td{mso-table-lspace:0pt;mso-table-rspace:0pt;}
@@ -13,29 +13,34 @@
     .wrapper{width:100%;background:#f0f2f5;padding:36px 0;}
     .container{max-width:600px;margin:0 auto;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e1e4e8;}
 
-    .header{background:#0d1117;padding:28px 40px 20px;text-align:center;}
+    .header{background:#0d1117;padding:32px 40px;text-align:center;}
     .logo-text{font-size:22px;font-weight:800;color:#ffffff;letter-spacing:-0.02em;}
     .logo-text span{color:#4ade80;}
-    .admin-badge{display:inline-block;margin-top:8px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:rgba(99,102,241,0.25);color:#a5b4fc;padding:3px 10px;border-radius:4px;border:1px solid rgba(99,102,241,0.4);}
+    .company{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;letter-spacing:0.08em;text-transform:uppercase;}
 
     .body{padding:36px 40px;}
-    .body-lead{font-size:15px;font-weight:600;color:#0d1117;margin:0 0 4px;}
+    .body-lead{font-size:15px;font-weight:600;color:#0d1117;margin:0 0 6px;}
     .body-sub{font-size:14px;color:#374151;margin:0 0 24px;line-height:1.6;}
     .body p{font-size:14px;line-height:1.75;color:#374151;margin:0 0 14px;}
 
-    .info-box{background:#fff5f5;border:1px solid #fecaca;border-radius:8px;padding:0 20px;margin:0 0 20px;}
-    .info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:13px;border-bottom:1px solid #fee2e2;}
+    .info-box{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:0 20px;margin:0 0 20px;}
+    .info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:13px;border-bottom:1px solid #fef3c7;}
     .info-row:last-child{border-bottom:none;}
     .info-label{color:#6b7280;font-weight:500;white-space:nowrap;margin-right:16px;}
     .info-value{color:#0d1117;font-weight:600;text-align:right;word-break:break-all;}
-    .info-value.expired{color:#dc2626;}
-    .info-value.blocked{color:#dc2626;}
+    .info-value.warn{color:#d97706;}
+    .info-value.avail{color:#059669;}
 
-    .action-note{font-size:14px;color:#374151;margin:0 0 6px;line-height:1.75;}
-    .recovery-note{font-size:14px;color:#6b7280;margin:0 0 20px;line-height:1.75;}
+    .notice-box{background:#f0f9ff;border-left:3px solid #38bdf8;border-radius:0 6px 6px 0;padding:12px 16px;margin:20px 0;}
+    .notice-box p{font-size:13px;color:#0c4a6e;margin:0;line-height:1.7;}
 
-    .cta-wrap{text-align:center;margin:24px 0 8px;}
-    .cta-btn{display:inline-block;background:#4f46e5;color:#ffffff!important;text-decoration:none;font-size:14px;font-weight:700;padding:14px 44px;border-radius:8px;}
+    .action-box{background:#f8f9fa;border:1px solid #e1e4e8;border-radius:8px;padding:16px 20px;margin:20px 0;}
+    .action-box p{font-size:13px;color:#374151;margin:0 0 6px;font-weight:600;}
+    .action-box ul{margin:6px 0 0;padding:0 0 0 16px;}
+    .action-box li{font-size:13px;color:#374151;line-height:1.8;}
+
+    .cta-wrap{text-align:center;margin:28px 0 8px;}
+    .cta-btn{display:inline-block;background:#3b5bdb;color:#ffffff!important;text-decoration:none;font-size:14px;font-weight:700;padding:14px 44px;border-radius:8px;letter-spacing:0.01em;}
 
     .security{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:16px 20px;margin:0 40px 24px;}
     .security-title{font-size:12px;font-weight:700;color:#92400e;margin-bottom:8px;}
@@ -53,42 +58,54 @@
 
   <div class="header">
     <div class="logo-text">Karbon<span>.fi</span></div>
-    <div><span class="admin-badge">Admin Console</span></div>
+    <div class="company">Infiniteblock Corp.</div>
   </div>
 
   <div class="body">
-    <p class="body-lead">아래 고객사의 KYB 인증이 만료되었습니다.</p>
-    <p class="body-sub">해당 고객사 출금이 차단되었습니다.</p>
+    <p class="body-lead">⚠ 서명자 계정이 비활성화되었습니다.</p>
+    <p class="body-sub">해당 지갑의 출금 서명에 영향이 있을 수 있습니다.</p>
 
     <div class="info-box">
       <div class="info-row">
-        <span class="info-label">법인명</span>
-        <span class="info-value">{법인명}</span>
+        <span class="info-label">영향 지갑</span>
+        <span class="info-value">{지갑명}</span>
       </div>
       <div class="info-row">
-        <span class="info-label">사업자번호</span>
-        <span class="info-value">{사업자번호}</span>
+        <span class="info-label">영향 서명자</span>
+        <span class="info-value">{계정명}</span>
       </div>
       <div class="info-row">
-        <span class="info-label">만료일</span>
-        <span class="info-value expired">{YY-MM-DD}</span>
+        <span class="info-label">비활성화 유형</span>
+        <span class="info-value warn">{PW 잠금 / OTP 잠금 / 수동 비활성화}</span>
       </div>
       <div class="info-row">
-        <span class="info-label">이전 위험등급</span>
-        <span class="info-value">{위험등급}</span>
+        <span class="info-label">현재 정책</span>
+        <span class="info-value">{N} of {M}</span>
       </div>
       <div class="info-row">
-        <span class="info-label">차단 범위</span>
-        <span class="info-value blocked">해당 고객사 출금 전면 차단</span>
+        <span class="info-label">서명 가능 인원</span>
+        <span class="info-value avail">{M - 비활성 서명자 수}명</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">발생 일시</span>
+        <span class="info-value">{YY-MM-DD hh:mm} KST</span>
       </div>
     </div>
 
-    <p class="action-note">KYB 재작성을 시작해 주세요.</p>
-    <p class="recovery-note">갱신 완료 시 출금이 자동으로 복구됩니다.</p>
-    <p class="recovery-note">⚠ 만료 후 30일이 경과하면 계약 만료로 전환되어<br />고객사의 포털 로그인도 차단됩니다.</p>
+    <div class="notice-box">
+      <p>ⓘ 여러 지갑에 영향이 있는 경우 지갑별로 이메일이 발송됩니다.</p>
+    </div>
+
+    <div class="action-box">
+      <p>⚠ 필요 시 아래 조치를 진행해 주세요.</p>
+      <ul>
+        <li>계정 잠금 해제 요청 (Admin Console 담당자 문의)</li>
+        <li>Strategy Engine에서 정책 수정</li>
+      </ul>
+    </div>
 
     <div class="cta-wrap">
-      <a href="https://admin.karbon.fi/kyb" class="cta-btn">KYB 관리 이동 →</a>
+      <a href="https://karbon.fi/strategy-engine" class="cta-btn">Strategy Engine에서 확인 →</a>
     </div>
   </div>
 
