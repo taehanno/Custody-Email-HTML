@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[Karbon.fi] 증빙 문서 재발송 — {문서번호}</title>
+  <title>[Karbon.fi] 증빙 문서 재발송 ({N}/5회) — {문서번호}</title>
   <style>
     body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
     table,td{mso-table-lspace:0pt;mso-table-rspace:0pt;}
@@ -85,8 +85,12 @@
         <span class="info-value">{YY-MM-DD hh:mm} KST</span>
       </div>
       <div class="info-row">
-        <span class="info-label">재발송 횟수</span>
-        <span class="info-value">{N}회차</span>
+        <span class="info-label">재발송 회차</span>
+        <span class="info-value">{N}회차 / 5회 한도</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">재발송 가능 남은 기간</span>
+        <span class="info-value">{YY-MM-DD}까지 (최초 발급일 + 90일)</span>
       </div>
       <div class="info-row">
         <span class="info-label">발송 대상</span>
@@ -97,6 +101,12 @@
     <div class="notice-box">
       <p>ⓘ 첨부된 PDF는 최초 발급 시점의 내용 그대로입니다.<br />
       (시세·잔액 갱신 없음 — 새 시점 데이터가 필요한 경우 신규 발급을 진행해 주세요.)</p>
+    </div>
+
+    <div class="notice-box" style="background:#eff6ff;border-color:#bfdbfe;">
+      <p>ⓘ 재발송 한도 안내<br />
+      · 발급 후 90일 이내 / 문서당 최대 5회까지 가능<br />
+      · 한도 초과 또는 기간 경과 시 신규 발급 필요</p>
     </div>
 
     <div class="warn-inline">
