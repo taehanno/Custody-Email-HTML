@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>잔고증명서 (Balance Certificate) — §12-13-21-2 PDF 명세</title>
+  <style>
+    body{margin:0;background:#525659;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;font-size:10pt;color:#1E293B;}
+
+    .spec-bar{background:#0F172A;color:#94A3B8;font-size:11px;font-family:monospace;text-align:center;padding:8px 16px;letter-spacing:.04em;position:sticky;top:0;z-index:10;}
+    .spec-bar strong{color:#fff;}
+
+    .page{width:794px;min-height:1123px;margin:28px auto;background:#fff;padding:94px 76px 94px 76px;box-sizing:border-box;box-shadow:0 4px 28px rgba(0,0,0,.45);position:relative;}
+
+    /* Header */
+    .doc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+    .logo-area img{height:34px;display:block;}
+    .doc-meta{text-align:right;font-size:8.5pt;line-height:1.7;}
+    .doc-meta .lbl{color:#64748B;}
+    .doc-meta .val{color:#1E293B;font-weight:600;font-family:'Courier New',monospace;}
+
+    hr{border:none;border-top:1px solid #E2E8F0;margin:10px 0;}
+
+    /* Title */
+    .title-block{text-align:center;margin:16px 0 14px;}
+    .title-block .ko{font-size:18pt;font-weight:700;letter-spacing:.22em;color:#0F172A;margin:0;}
+    .title-block .en{font-size:9.5pt;color:#64748B;margin:3px 0 0;}
+
+    /* Section */
+    .sec{margin-bottom:12px;}
+    .sec-head{font-size:8.5pt;font-weight:700;color:#0F172A;margin:0 0 5px;}
+    .field{display:flex;font-size:8.5pt;line-height:1.9;}
+    .fl{width:112px;color:#64748B;flex-shrink:0;}
+    .fv{flex:1;color:#1E293B;}
+
+    /* Table */
+    table{width:100%;border-collapse:collapse;font-size:8pt;color:#1E293B;margin-bottom:6px;}
+    th{background:#F8FAFC;color:#64748B;font-weight:600;padding:5px 8px;border:1px solid #E2E8F0;text-align:left;white-space:nowrap;}
+    td{padding:4px 8px;border:1px solid #E2E8F0;vertical-align:middle;}
+    tr:nth-child(even) td{background:#FAFAFA;}
+    .r{text-align:right;}
+    .mono{font-family:'Courier New',monospace;font-size:7.5pt;}
+    .sub td{font-weight:600;background:#F1F5F9;}
+    .tot td{font-weight:700;background:#E2E8F0;}
+
+    /* Notes */
+    .notes{font-size:7.5pt;color:#64748B;line-height:1.9;margin:4px 0 0;}
+
+    /* Cert */
+    .cert{text-align:center;font-size:9pt;line-height:1.9;margin:10px 0 6px;}
+    .cert .en{color:#64748B;font-size:8.5pt;}
+
+    /* Signature */
+    .sig{text-align:right;font-size:9pt;line-height:2.1;margin:8px 0;}
+    .seal{display:inline-block;width:58px;height:58px;border:2.5px solid #C8102E;border-radius:50%;vertical-align:middle;margin-left:10px;position:relative;}
+    .seal::after{content:'직인';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8pt;color:#C8102E;}
+
+    /* QR */
+    .qr-row{display:flex;align-items:flex-start;gap:14px;margin-top:10px;padding-top:10px;border-top:1px solid #E2E8F0;}
+    .qr-placeholder{width:76px;height:76px;border:1px solid #CBD5E1;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7pt;color:#94A3B8;text-align:center;}
+    .qr-text{font-size:7.5pt;color:#1E293B;line-height:1.8;}
+    .qr-text .lbl{color:#64748B;}
+    .qr-text .mono{font-family:'Courier New',monospace;word-break:break-all;}
+
+    /* Footer */
+    .doc-footer{display:flex;justify-content:space-between;align-items:center;font-size:7.5pt;color:#64748B;margin-top:10px;padding-top:7px;border-top:1px solid #E2E8F0;}
+  </style>
+</head>
+<body>
+
+<div class="spec-bar"><strong>§12-13-21-2</strong> &nbsp;│&nbsp; 잔고증명서 (Balance Certificate) &nbsp;│&nbsp; PDF 콘텐츠 명세 — HTML 프리뷰 &nbsp;│&nbsp; BC-YYYYMMDD-NNNNN</div>
+
+<!-- ═══ PAGE 1 (단일 페이지 원칙) ═══ -->
+<div class="page">
+
+  <div class="doc-header">
+    <div class="logo-area">
+      <img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" />
+    </div>
+    <div class="doc-meta">
+      <div class="lbl">문서번호</div>
+      <div class="val">BC-20260427-00001</div>
+      <div class="lbl" style="margin-top:4px;">발급일</div>
+      <div>2026-04-27</div>
+    </div>
+  </div>
+  <hr />
+
+  <div class="title-block">
+    <p class="ko">잔 고 증 명 서</p>
+    <p class="en">Balance Certificate</p>
+  </div>
+  <hr />
+
+  <!-- 발급 정보 -->
+  <div class="sec">
+    <div class="sec-head">▣ 발급 정보</div>
+    <div class="field"><span class="fl">· 발급 일시</span><span class="fv">2026-04-27 14:30:00 KST</span></div>
+    <div class="field"><span class="fl">· 기준 일시</span><span class="fv">2026-04-27 23:59:59 KST</span></div>
+    <div class="field"><span class="fl">· 발급 용도</span><span class="fv">감사 자료 제출</span></div>
+    <div class="field"><span class="fl">· 수신처</span><span class="fv">삼정회계법인</span></div>
+    <div class="field"><span class="fl">· 발송 대상</span><span class="fv">master@company.com (Master)</span></div>
+  </div>
+
+  <!-- 고객사 정보 -->
+  <div class="sec">
+    <div class="sec-head">▣ 고객사 정보</div>
+    <div class="field"><span class="fl">· 고객사명</span><span class="fv">알파투자운용(주) / Alpha Asset Management Co., Ltd.</span></div>
+    <div class="field"><span class="fl">· 사업자번호</span><span class="fv">123-45-67890</span></div>
+    <div class="field"><span class="fl">· 대표자</span><span class="fv">김대표</span></div>
+    <div class="field"><span class="fl">· 본점 주소</span><span class="fv">서울특별시 강남구 ○○로 ○○</span></div>
+  </div>
+
+  <hr />
+
+  <!-- 보유 자산 현황 -->
+  <div class="sec">
+    <div class="sec-head">▣ 보유 자산 현황 (KRW 환산)</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28px;">번호</th>
+          <th>지갑명</th>
+          <th>코인</th>
+          <th>네트워크</th>
+          <th class="r">잔액</th>
+          <th class="r">평가금액 (KRW)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="r">1</td>
+          <td>운영지갑 A</td>
+          <td>BTC</td>
+          <td>Bitcoin Mainnet</td>
+          <td class="r mono">1.50000000</td>
+          <td class="r">₩ 210,000,000</td>
+        </tr>
+        <tr>
+          <td class="r">2</td>
+          <td>운영지갑 A</td>
+          <td>USDT</td>
+          <td>ERC20 (Ethereum)</td>
+          <td class="r mono">10,000.00</td>
+          <td class="r">₩ 13,800,000</td>
+        </tr>
+        <tr>
+          <td class="r">3</td>
+          <td>운영지갑 A</td>
+          <td>ETH</td>
+          <td>Ethereum Mainnet</td>
+          <td class="r mono">2.00000000</td>
+          <td class="r">₩ 7,600,000</td>
+        </tr>
+        <tr>
+          <td class="r">4</td>
+          <td>예비지갑 A</td>
+          <td>ETH</td>
+          <td>Ethereum Mainnet</td>
+          <td class="r mono">5.00000000</td>
+          <td class="r">₩ 19,000,000</td>
+        </tr>
+        <tr class="sub">
+          <td colspan="5" class="r">소 계</td>
+          <td class="r">₩ 250,400,000</td>
+        </tr>
+        <tr class="tot">
+          <td colspan="5" class="r">총 자산</td>
+          <td class="r">₩ 250,400,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="notes">
+      <div>※ 평가금액은 기준 일시의 시세 API 환산 기준입니다.</div>
+      <div>※ 보류(HOLD) 상태 입금 자산은 포함되지 않습니다.</div>
+      <div>※ 적용 시세 출처: CoinGecko / Upbit (KRW 마켓)</div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="cert">
+    <div>본 증명서는 위 시점 기준의 보유 자산을 증명합니다.</div>
+    <div class="en">This certifies the asset holdings as of the reference time above.</div>
+  </div>
+
+  <div class="sig">
+    <div>발급일: 2026년 04월 27일</div>
+    <div>주식회사 인피닛블록</div>
+    <div>대표이사 &nbsp;○ ○ ○&nbsp;<span class="seal"></span></div>
+  </div>
+
+  <hr />
+
+  <div class="qr-row">
+    <div class="qr-placeholder">QR<br/>20×20mm</div>
+    <div class="qr-text">
+      <div><span class="lbl">검증 URL: </span><span class="mono">https://inbl.io/verify/BC-20260427-00001?code=A1B2C3D4</span></div>
+      <div><span class="lbl">검증 코드: </span><strong>A1B2-C3D4</strong></div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <div>주식회사 인피닛블록 &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
+    <div>본 문서는 전자적으로 발급된 공식 증빙입니다.</div>
+    <div>1 / 1 페이지</div>
+  </div>
+
+</div>
+
+<!-- ═══ 분기 규칙 명세 ═══ -->
+<div style="width:794px;margin:0 auto 28px;background:#1E293B;color:#94A3B8;padding:20px 28px;box-sizing:border-box;font-size:8pt;font-family:monospace;line-height:1.8;">
+  <div style="color:#F8FAFC;font-weight:700;margin-bottom:8px;">§12-13-21-2 데이터 분기 규칙</div>
+  <div style="color:#64748B;">보유 코인 &gt; 20개 &nbsp;→&nbsp; <span style="color:#FCD34D;">표를 다음 페이지로 분할, 헤더/푸터 반복</span></div>
+  <div>발급 범위 = 고객사 전체 지갑 &nbsp;→&nbsp; 모든 활성 지갑 자동 포함</div>
+  <div>발급 범위 = 특정 지갑 선택 &nbsp;→&nbsp; 선택 지갑만 + 발급정보에 "선택 지갑: N개" 추가</div>
+  <div>잔액 = 0 &nbsp;→&nbsp; 표에서 제외</div>
+  <div>보류 상태 입금 &nbsp;→&nbsp; 제외 + ※ 표기</div>
+  <div>시세 조회 실패 &nbsp;→&nbsp; <span style="color:#FCA5A5;">평가금액 "—" + ※ "시세 조회 불가 항목 있음"</span></div>
+  <div>영문 발급 (ENG) &nbsp;→&nbsp; 모든 항목 영문 / 고객사명 영문 KYB 우선</div>
+  <div>국·영문 병기 &nbsp;→&nbsp; 항목명 국문 / English 2줄, 데이터 단일 표기</div>
+</div>
+
+</body>
+</html>
