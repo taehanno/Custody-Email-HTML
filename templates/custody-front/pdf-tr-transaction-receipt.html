@@ -7,12 +7,18 @@
   <style>
     body{margin:0;background:#525659;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;font-size:10pt;color:#1E293B;}
 
-    .spec-bar{background:#0F172A;color:#94A3B8;font-size:11px;font-family:monospace;text-align:center;padding:8px 16px;letter-spacing:.04em;position:sticky;top:0;z-index:10;}
-    .spec-bar strong{color:#fff;}
+    .spec-bar{background:#0F172A;color:#94A3B8;font-size:11px;font-family:monospace;display:flex;justify-content:space-between;align-items:center;padding:8px 16px;position:sticky;top:0;z-index:10;gap:12px;}
+    .spec-info strong{color:#fff;}
+    .lang-toggle{display:flex;gap:4px;flex-shrink:0;}
+    .lang-btn{background:transparent;border:1px solid #475569;color:#94A3B8;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:11px;font-family:monospace;letter-spacing:.04em;}
+    .lang-btn.active{background:#3B82F6;border-color:#3B82F6;color:#fff;}
+    .lang-btn:hover:not(.active){border-color:#64748B;color:#CBD5E1;}
 
-    .page-label{width:794px;margin:20px auto 6px;font-family:monospace;font-size:10px;color:#94A3B8;text-align:left;padding:0 4px;}
+    .page-label{width:794px;margin:20px auto 6px;font-family:monospace;font-size:10px;color:#94A3B8;padding:0 4px;}
 
-    .page{width:794px;min-height:1123px;margin:0 auto 28px;background:#fff;padding:94px 76px;box-sizing:border-box;box-shadow:0 4px 28px rgba(0,0,0,.45);position:relative;}
+    .page{width:794px;min-height:1123px;margin:0 auto 28px;background:#fff;padding:94px 76px;box-sizing:border-box;box-shadow:0 4px 28px rgba(0,0,0,.45);}
+
+    .variant-tag{display:inline-block;background:#1E40AF;color:#fff;font-size:7pt;padding:2px 8px;border-radius:3px;margin-bottom:8px;font-family:monospace;}
 
     .doc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
     .logo-area img{height:34px;display:block;}
@@ -23,8 +29,8 @@
     hr{border:none;border-top:1px solid #E2E8F0;margin:10px 0;}
 
     .title-block{text-align:center;margin:16px 0 14px;}
-    .title-block .ko{font-size:18pt;font-weight:700;letter-spacing:.22em;color:#0F172A;margin:0;}
-    .title-block .en{font-size:9.5pt;color:#64748B;margin:3px 0 0;}
+    .t-main{font-size:18pt;font-weight:700;letter-spacing:.22em;color:#0F172A;margin:0;}
+    .t-sub{font-size:9.5pt;color:#64748B;margin:3px 0 0;}
 
     .sec{margin-bottom:12px;}
     .sec-head{font-size:8.5pt;font-weight:700;color:#0F172A;margin:0 0 5px;}
@@ -34,30 +40,32 @@
     .fv.mono{font-family:'Courier New',monospace;font-size:8pt;word-break:break-all;}
     .fv.dep{color:#16A34A;font-weight:600;}
     .fv.wd{color:#DC2626;font-weight:600;}
+    .fv.ok{color:#16A34A;font-weight:600;}
 
-    .field-divider{border:none;border-top:1px dashed #E2E8F0;margin:4px 0;}
+    .xrp-tag{background:#FFFBEB;border-radius:3px;padding:1px 4px;}
+    .xrp-tag .fl{color:#92400E;}
+    .xrp-tag .fv{color:#92400E;font-weight:700;font-family:'Courier New',monospace;}
 
-    .amount-section{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:10px 14px;margin-bottom:12px;}
+    .amount-box{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:10px 14px;margin-bottom:12px;}
     .amount-row{display:flex;justify-content:space-between;font-size:8.5pt;line-height:2;}
-    .amount-row .lbl{color:#64748B;}
-    .amount-row .val{font-weight:600;color:#1E293B;}
-    .amount-row .val.mono{font-family:'Courier New',monospace;}
-    .amount-total{border-top:1px solid #CBD5E1;margin-top:4px;padding-top:4px;}
-    .amount-total .lbl{font-weight:700;color:#0F172A;}
-    .amount-total .val{font-weight:700;font-size:9.5pt;color:#0F172A;}
+    .amount-row .a-lbl{color:#64748B;}
+    .amount-row .a-val{font-weight:600;font-family:'Courier New',monospace;}
+    .amount-divider{border:none;border-top:1px dashed #E2E8F0;margin:4px 0;}
+    .amount-total .a-lbl{font-weight:700;color:#0F172A;}
+    .amount-total .a-val{font-weight:700;font-size:9.5pt;color:#0F172A;}
 
-    .sig-row{display:flex;align-items:center;font-size:8.5pt;line-height:1.9;margin:2px 0;}
-    .sig-row .lbl{width:90px;color:#64748B;flex-shrink:0;}
-    .sig-row .val{flex:1;color:#1E293B;}
-    .sig-row .check{color:#16A34A;font-weight:700;margin-left:6px;}
-    .policy{display:inline-block;background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;font-size:7.5pt;border-radius:3px;padding:1px 6px;margin-left:4px;}
+    .sig-row{display:flex;align-items:center;font-size:8.5pt;line-height:1.9;margin:1px 0;}
+    .sig-row .s-lbl{width:90px;color:#64748B;flex-shrink:0;}
+    .sig-row .s-val{flex:1;color:#1E293B;}
+    .check{color:#16A34A;font-weight:700;margin-left:6px;}
+    .policy-badge{display:inline-block;background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;font-size:7.5pt;border-radius:3px;padding:1px 6px;margin-left:4px;}
 
     .cert{text-align:center;font-size:9pt;line-height:1.9;margin:10px 0 6px;}
-    .cert .en{color:#64748B;font-size:8.5pt;}
+    .cert-sub{color:#64748B;font-size:8.5pt;display:none;}
 
-    .sig{text-align:right;font-size:9pt;line-height:2.1;margin:8px 0;}
-    .seal{display:inline-block;width:58px;height:58px;border:2.5px solid #C8102E;border-radius:50%;vertical-align:middle;margin-left:10px;position:relative;}
-    .seal::after{content:'직인';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8pt;color:#C8102E;}
+    .sig{text-align:right;font-size:9pt;line-height:2.1;margin:8px 0;display:flex;flex-direction:column;align-items:flex-end;}
+    .sig-inner{display:flex;align-items:center;gap:10px;}
+    .stamp-img{height:58px;width:58px;object-fit:contain;display:block;}
 
     .qr-row{display:flex;align-items:flex-start;gap:14px;margin-top:10px;padding-top:10px;border-top:1px solid #E2E8F0;}
     .qr-placeholder{width:76px;height:76px;border:1px solid #CBD5E1;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7pt;color:#94A3B8;text-align:center;}
@@ -67,97 +75,103 @@
 
     .doc-footer{display:flex;justify-content:space-between;align-items:center;font-size:7.5pt;color:#64748B;margin-top:10px;padding-top:7px;border-top:1px solid #E2E8F0;}
 
-    .variant-tag{display:inline-block;background:#1E40AF;color:#fff;font-size:7pt;padding:2px 8px;border-radius:3px;margin-bottom:6px;font-family:monospace;}
+    .spec-rules{width:794px;margin:0 auto 28px;background:#1E293B;color:#94A3B8;padding:20px 28px;box-sizing:border-box;font-size:8pt;font-family:monospace;line-height:1.8;}
+    .spec-rules-title{color:#F8FAFC;font-weight:700;margin-bottom:8px;}
   </style>
 </head>
 <body>
 
-<div class="spec-bar"><strong>§12-13-21-4</strong> &nbsp;│&nbsp; 개별 거래 증빙 (Transaction Receipt) &nbsp;│&nbsp; PDF 콘텐츠 명세 — HTML 프리뷰 &nbsp;│&nbsp; TR-YYYYMMDD-NNNNN</div>
+<div class="spec-bar">
+  <div class="spec-info"><strong>§12-13-21-4</strong> &nbsp;│&nbsp; 개별 거래 증빙 (Transaction Receipt) &nbsp;│&nbsp; PDF 콘텐츠 명세 — TR-YYYYMMDD-NNNNN</div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('ko',this)">국문</button>
+    <button class="lang-btn" onclick="setLang('en',this)">영문</button>
+    <button class="lang-btn" onclick="setLang('bi',this)">국+영</button>
+  </div>
+</div>
 
-<!-- ═══ VARIANT 1: 출금 완료 (BTC) ═══ -->
-<div class="page-label">▶ VARIANT 1 — 출금 완료 (BTC 예시)</div>
+<!-- ════ SHARED MACROS (inlined per variant) ════ -->
+
+<!-- ═══ VARIANT 1: 출금 완료 — BTC ═══ -->
+<div class="page-label">▶ VARIANT 1 — 출금 완료 (BTC)</div>
 <div class="page">
   <div class="variant-tag">VARIANT 1: 출금 완료 — BTC</div>
 
   <div class="doc-header">
-    <div class="logo-area">
-      <img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" />
-    </div>
+    <div class="logo-area"><img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" /></div>
     <div class="doc-meta">
-      <div class="lbl">문서번호</div>
+      <div class="lbl"><span data-ko="문서번호" data-en="Document No.">문서번호</span></div>
       <div class="val">TR-20260427-00001</div>
-      <div class="lbl" style="margin-top:4px;">발급일</div>
+      <div class="lbl" style="margin-top:4px;"><span data-ko="발급일" data-en="Issue Date">발급일</span></div>
       <div>2026-04-27</div>
     </div>
   </div>
   <hr />
 
   <div class="title-block">
-    <p class="ko">거 래 증 빙</p>
-    <p class="en">Transaction Receipt</p>
+    <p class="t-main title-main">거 래 증 빙</p>
+    <p class="t-sub title-sub">Transaction Receipt</p>
   </div>
   <hr />
 
-  <!-- 거래 정보 -->
   <div class="sec">
-    <div class="sec-head">▣ 거래 정보</div>
-    <div class="field"><span class="fl">· 거래 유형</span><span class="fv wd">출금 (Withdrawal)</span></div>
-    <div class="field"><span class="fl">· 신청 ID</span><span class="fv mono">INF-20260409-00123</span></div>
-    <div class="field"><span class="fl">· 거래 일시</span><span class="fv">2026-04-09 10:30:00 KST</span></div>
-    <div class="field"><span class="fl">· 상태</span><span class="fv" style="color:#16A34A;font-weight:600;">완료 (Completed)</span></div>
+    <div class="sec-head">▣ <span data-ko="거래 정보" data-en="Transaction Info">거래 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="거래 유형" data-en="Type">거래 유형</span></span><span class="fv wd"><span data-ko="출금 (Withdrawal)" data-en="Withdrawal">출금 (Withdrawal)</span></span></div>
+    <div class="field"><span class="fl">· <span data-ko="신청 ID" data-en="Request ID">신청 ID</span></span><span class="fv mono">INF-20260409-00123</span></div>
+    <div class="field"><span class="fl">· <span data-ko="거래 일시" data-en="Timestamp">거래 일시</span></span><span class="fv">2026-04-09 10:30:00 KST</span></div>
+    <div class="field"><span class="fl">· <span data-ko="상태" data-en="Status">상태</span></span><span class="fv ok"><span data-ko="완료 (Completed)" data-en="Completed">완료 (Completed)</span></span></div>
   </div>
 
-  <!-- 지갑 정보 -->
   <div class="sec">
-    <div class="sec-head">▣ 지갑 정보</div>
-    <div class="field"><span class="fl">· 고객사명</span><span class="fv">알파투자운용(주) / Alpha Asset Management Co., Ltd.</span></div>
-    <div class="field"><span class="fl">· 지갑명</span><span class="fv">운영 지갑 A</span></div>
-    <div class="field"><span class="fl">· 코인 / 네트워크</span><span class="fv">BTC / Bitcoin Mainnet</span></div>
+    <div class="sec-head">▣ <span data-ko="지갑 정보" data-en="Wallet Info">지갑 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="고객사명" data-en="Company Name">고객사명</span></span><span class="fv company-val">알파투자운용(주) / Alpha Asset Management Co., Ltd.</span></div>
+    <div class="field"><span class="fl">· <span data-ko="지갑명" data-en="Wallet Name">지갑명</span></span><span class="fv">운영 지갑 A</span></div>
+    <div class="field"><span class="fl">· <span data-ko="코인 / 네트워크" data-en="Coin / Network">코인 / 네트워크</span></span><span class="fv">BTC / Bitcoin Mainnet</span></div>
   </div>
 
-  <!-- 거래 상세 -->
   <div class="sec">
-    <div class="sec-head">▣ 거래 상세</div>
-    <div class="amount-section">
-      <div class="amount-row"><span class="lbl">출금 수량</span><span class="val mono">1.00000000 BTC</span></div>
-      <div class="amount-row"><span class="lbl">네트워크 수수료 (확정)</span><span class="val mono">0.00004800 BTC</span></div>
-      <hr class="field-divider" />
-      <div class="amount-row amount-total"><span class="lbl">총 출금액</span><span class="val mono">1.00004800 BTC</span></div>
-      <div class="amount-row"><span class="lbl">원화 환산</span><span class="val">₩ 140,006,720 <span style="color:#64748B;font-size:8pt;font-weight:400;">(거래 시점 기준)</span></span></div>
+    <div class="sec-head">▣ <span data-ko="거래 상세" data-en="Transaction Details">거래 상세</span></div>
+    <div class="amount-box">
+      <div class="amount-row"><span class="a-lbl"><span data-ko="출금 수량" data-en="WD Amount">출금 수량</span></span><span class="a-val">1.00000000 BTC</span></div>
+      <div class="amount-row"><span class="a-lbl"><span data-ko="네트워크 수수료 (확정)" data-en="Network Fee (confirmed)">네트워크 수수료 (확정)</span></span><span class="a-val">0.00004800 BTC</span></div>
+      <hr class="amount-divider" />
+      <div class="amount-row amount-total"><span class="a-lbl"><span data-ko="총 출금액" data-en="Total Withdrawal">총 출금액</span></span><span class="a-val">1.00004800 BTC</span></div>
+      <div class="amount-row"><span class="a-lbl"><span data-ko="원화 환산" data-en="KRW Equivalent">원화 환산</span></span><span class="a-val" style="font-family:inherit;font-size:8.5pt;">₩ 140,006,720 <span style="color:#64748B;font-weight:400;font-size:8pt;">(<span data-ko="거래 시점 기준" data-en="at transaction time">거래 시점 기준</span>)</span></span></div>
     </div>
   </div>
 
-  <!-- 주소 정보 -->
   <div class="sec">
-    <div class="sec-head">▣ 주소 정보</div>
-    <div class="field"><span class="fl">· 수신 주소</span><span class="fv mono">1aBc2DefGhIjKlMnOpQrStUvWxYz3456789ABC</span></div>
-    <div class="field"><span class="fl">· 수신 유형</span><span class="fv">외부 주소 (CODE 검증 완료)</span></div>
+    <div class="sec-head">▣ <span data-ko="주소 정보" data-en="Address Info">주소 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="수신 주소" data-en="Recipient Address">수신 주소</span></span><span class="fv mono">1aBc2DefGhIjKlMnOpQrStUvWxYz3456789ABC</span></div>
+    <div class="field"><span class="fl">· <span data-ko="수신 유형" data-en="Address Type">수신 유형</span></span><span class="fv"><span data-ko="외부 주소 (CODE 검증 완료)" data-en="External (CODE verified)">외부 주소 (CODE 검증 완료)</span></span></div>
     <div class="field"><span class="fl">· TXID</span><span class="fv mono">A1B2C3D4E5F67890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890</span></div>
-    <div class="field"><span class="fl">· 블록 확인</span><span class="fv">1 confirm</span></div>
-    <div class="field"><span class="fl">· 메모</span><span class="fv">운영 자금 이동</span></div>
+    <div class="field"><span class="fl">· <span data-ko="블록 확인" data-en="Block Confirmations">블록 확인</span></span><span class="fv">1 confirm</span></div>
+    <div class="field"><span class="fl">· <span data-ko="메모" data-en="Memo">메모</span></span><span class="fv">운영 자금 이동</span></div>
   </div>
 
-  <!-- 서명 이력 -->
   <div class="sec">
-    <div class="sec-head">▣ 서명 이력</div>
-    <div class="sig-row"><span class="lbl">· 신청자</span><span class="val">홍Master <span style="color:#64748B;">(2026-04-09 09:12:00)</span></span></div>
-    <div class="sig-row"><span class="lbl">· 서명자 1</span><span class="val">홍Master <span style="color:#64748B;">(2026-04-09 09:15:00)</span><span class="check">✅</span></span></div>
-    <div class="sig-row"><span class="lbl">· 서명자 2</span><span class="val">이서명자 <span style="color:#64748B;">(2026-04-09 09:30:00)</span><span class="check">✅</span></span></div>
-    <div class="sig-row"><span class="lbl">· 서명자 3</span><span class="val" style="color:#94A3B8;">박서명자 (미서명)</span></div>
-    <div class="sig-row"><span class="lbl">· 서명 정책</span><span class="val">2 of 3 <span class="policy">충족</span></span></div>
+    <div class="sec-head">▣ <span data-ko="서명 이력" data-en="Signature History">서명 이력</span></div>
+    <div class="sig-row"><span class="s-lbl">· <span data-ko="신청자" data-en="Initiator">신청자</span></span><span class="s-val">홍Master <span style="color:#64748B;">(2026-04-09 09:12:00)</span></span></div>
+    <div class="sig-row"><span class="s-lbl">· <span data-ko="서명자" data-en="Signer">서명자</span> 1</span><span class="s-val">홍Master <span style="color:#64748B;">(2026-04-09 09:15:00)</span><span class="check">✅</span></span></div>
+    <div class="sig-row"><span class="s-lbl">· <span data-ko="서명자" data-en="Signer">서명자</span> 2</span><span class="s-val">이서명자 <span style="color:#64748B;">(2026-04-09 09:30:00)</span><span class="check">✅</span></span></div>
+    <div class="sig-row"><span class="s-lbl">· <span data-ko="서명자" data-en="Signer">서명자</span> 3</span><span class="s-val" style="color:#94A3B8;"><span data-ko="박서명자 (미서명)" data-en="Park Signer (unsigned)">박서명자 (미서명)</span></span></div>
+    <div class="sig-row"><span class="s-lbl">· <span data-ko="서명 정책" data-en="Signing Policy">서명 정책</span></span><span class="s-val">2 of 3 <span class="policy-badge"><span data-ko="충족" data-en="Met">충족</span></span></span></div>
   </div>
 
   <hr />
 
   <div class="cert">
-    <div>본 증빙은 위 거래의 발생 사실을 증명합니다.</div>
-    <div class="en">This certifies the occurrence of the above transaction.</div>
+    <div class="cert-main-v1">본 증빙은 위 거래의 발생 사실을 증명합니다.</div>
+    <div class="cert-sub-v1 cert-sub">This certifies the occurrence of the above transaction.</div>
   </div>
 
   <div class="sig">
-    <div>발급일: 2026년 04월 27일</div>
-    <div>주식회사 인피닛블록</div>
-    <div>대표이사 &nbsp;○ ○ ○&nbsp;<span class="seal"></span></div>
+    <div><span data-ko="발급일:" data-en="Date of Issuance:">발급일:</span> 2026년 04월 27일</div>
+    <div><span data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span></div>
+    <div class="sig-inner">
+      <span><span data-ko="대표이사" data-en="CEO">대표이사</span>&nbsp; 정구태</span>
+      <img src="../../assets/INBL%20STAMP.png" alt="직인" class="stamp-img" />
+    </div>
   </div>
 
   <hr />
@@ -165,20 +179,20 @@
   <div class="qr-row">
     <div class="qr-placeholder">QR<br/>20×20mm</div>
     <div class="qr-text">
-      <div><span class="lbl">검증 URL: </span><span class="mono">https://inbl.io/verify/TR-20260427-00001?code=C3D4E5F6</span></div>
-      <div><span class="lbl">검증 코드: </span><strong>C3D4-E5F6</strong></div>
+      <div><span class="lbl"><span data-ko="검증 URL:" data-en="Verification URL:">검증 URL:</span> </span><span class="mono">https://inbl.io/verify/TR-20260427-00001?code=C3D4E5F6</span></div>
+      <div><span class="lbl"><span data-ko="검증 코드:" data-en="Verification Code:">검증 코드:</span> </span><strong>C3D4-E5F6</strong></div>
     </div>
   </div>
 
   <div class="doc-footer">
-    <div>주식회사 인피닛블록 &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
-    <div>본 문서는 전자적으로 발급된 공식 증빙입니다.</div>
-    <div>1 / 1 페이지</div>
+    <div><span data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span> &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
+    <div><span data-ko="본 문서는 전자적으로 발급된 공식 증빙입니다." data-en="This document is an officially issued electronic certificate.">본 문서는 전자적으로 발급된 공식 증빙입니다.</span></div>
+    <div class="footer-page" data-ko="1 / 1 페이지" data-en-val="Page 1 of 1">1 / 1 페이지</div>
   </div>
 
 </div>
 
-<!-- ═══ VARIANT 2: 출금 — XRP (Destination Tag) ═══ -->
+<!-- ═══ VARIANT 2: 출금 완료 — XRP + Destination Tag ═══ -->
 <div class="page-label">▶ VARIANT 2 — 출금 완료 (XRP, Destination Tag 포함)</div>
 <div class="page">
   <div class="variant-tag">VARIANT 2: 출금 완료 — XRP + Destination Tag</div>
@@ -186,74 +200,77 @@
   <div class="doc-header">
     <div class="logo-area"><img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" /></div>
     <div class="doc-meta">
-      <div class="lbl">문서번호</div>
+      <div class="lbl"><span data-ko="문서번호" data-en="Document No.">문서번호</span></div>
       <div class="val">TR-20260427-00002</div>
-      <div class="lbl" style="margin-top:4px;">발급일</div>
+      <div class="lbl" style="margin-top:4px;"><span data-ko="발급일" data-en="Issue Date">발급일</span></div>
       <div>2026-04-27</div>
     </div>
   </div>
   <hr />
 
   <div class="title-block">
-    <p class="ko">거 래 증 빙</p>
-    <p class="en">Transaction Receipt</p>
+    <p class="t-main title-main">거 래 증 빙</p>
+    <p class="t-sub title-sub">Transaction Receipt</p>
   </div>
   <hr />
 
   <div class="sec">
-    <div class="sec-head">▣ 거래 정보</div>
-    <div class="field"><span class="fl">· 거래 유형</span><span class="fv wd">출금 (Withdrawal)</span></div>
-    <div class="field"><span class="fl">· 신청 ID</span><span class="fv mono">INF-20260405-00087</span></div>
-    <div class="field"><span class="fl">· 거래 일시</span><span class="fv">2026-04-05 16:44:00 KST</span></div>
-    <div class="field"><span class="fl">· 상태</span><span class="fv" style="color:#16A34A;font-weight:600;">완료 (Completed)</span></div>
+    <div class="sec-head">▣ <span data-ko="거래 정보" data-en="Transaction Info">거래 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="거래 유형" data-en="Type">거래 유형</span></span><span class="fv wd"><span data-ko="출금 (Withdrawal)" data-en="Withdrawal">출금 (Withdrawal)</span></span></div>
+    <div class="field"><span class="fl">· <span data-ko="신청 ID" data-en="Request ID">신청 ID</span></span><span class="fv mono">INF-20260405-00087</span></div>
+    <div class="field"><span class="fl">· <span data-ko="거래 일시" data-en="Timestamp">거래 일시</span></span><span class="fv">2026-04-05 16:44:00 KST</span></div>
+    <div class="field"><span class="fl">· <span data-ko="상태" data-en="Status">상태</span></span><span class="fv ok"><span data-ko="완료 (Completed)" data-en="Completed">완료 (Completed)</span></span></div>
   </div>
 
   <div class="sec">
-    <div class="sec-head">▣ 지갑 정보</div>
-    <div class="field"><span class="fl">· 고객사명</span><span class="fv">알파투자운용(주)</span></div>
-    <div class="field"><span class="fl">· 지갑명</span><span class="fv">운영 지갑 B</span></div>
-    <div class="field"><span class="fl">· 코인 / 네트워크</span><span class="fv">XRP / XRP Ledger</span></div>
+    <div class="sec-head">▣ <span data-ko="지갑 정보" data-en="Wallet Info">지갑 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="고객사명" data-en="Company Name">고객사명</span></span><span class="fv company-val">알파투자운용(주) / Alpha Asset Management Co., Ltd.</span></div>
+    <div class="field"><span class="fl">· <span data-ko="지갑명" data-en="Wallet Name">지갑명</span></span><span class="fv">운영 지갑 B</span></div>
+    <div class="field"><span class="fl">· <span data-ko="코인 / 네트워크" data-en="Coin / Network">코인 / 네트워크</span></span><span class="fv">XRP / XRP Ledger</span></div>
   </div>
 
   <div class="sec">
-    <div class="sec-head">▣ 거래 상세</div>
-    <div class="amount-section">
-      <div class="amount-row"><span class="lbl">출금 수량</span><span class="val mono">100.000000 XRP</span></div>
-      <div class="amount-row"><span class="lbl">네트워크 수수료 (확정)</span><span class="val mono">0.000012 XRP</span></div>
-      <hr class="field-divider" />
-      <div class="amount-row amount-total"><span class="lbl">총 출금액</span><span class="val mono">100.000012 XRP</span></div>
-      <div class="amount-row"><span class="lbl">원화 환산</span><span class="val">₩ 78,094 <span style="color:#64748B;font-size:8pt;font-weight:400;">(거래 시점 기준)</span></span></div>
+    <div class="sec-head">▣ <span data-ko="거래 상세" data-en="Transaction Details">거래 상세</span></div>
+    <div class="amount-box">
+      <div class="amount-row"><span class="a-lbl"><span data-ko="출금 수량" data-en="WD Amount">출금 수량</span></span><span class="a-val">100.000000 XRP</span></div>
+      <div class="amount-row"><span class="a-lbl"><span data-ko="네트워크 수수료 (확정)" data-en="Network Fee (confirmed)">네트워크 수수료 (확정)</span></span><span class="a-val">0.000012 XRP</span></div>
+      <hr class="amount-divider" />
+      <div class="amount-row amount-total"><span class="a-lbl"><span data-ko="총 출금액" data-en="Total Withdrawal">총 출금액</span></span><span class="a-val">100.000012 XRP</span></div>
+      <div class="amount-row"><span class="a-lbl"><span data-ko="원화 환산" data-en="KRW Equivalent">원화 환산</span></span><span class="a-val" style="font-family:inherit;font-size:8.5pt;">₩ 78,094 <span style="color:#64748B;font-weight:400;font-size:8pt;">(<span data-ko="거래 시점 기준" data-en="at transaction time">거래 시점 기준</span>)</span></span></div>
     </div>
   </div>
 
   <div class="sec">
-    <div class="sec-head">▣ 주소 정보</div>
-    <div class="field"><span class="fl">· 수신 주소</span><span class="fv mono">rN7n3473SaZBCG4dFL73ABC123XYZ456</span></div>
-    <div class="field" style="background:#FFFBEB;border-radius:3px;padding:2px 4px;"><span class="fl" style="color:#92400E;">· Destination Tag</span><span class="fv mono" style="color:#92400E;font-weight:700;">987654321</span></div>
-    <div class="field"><span class="fl">· 수신 유형</span><span class="fv">외부 주소 (CODE 검증 완료)</span></div>
+    <div class="sec-head">▣ <span data-ko="주소 정보" data-en="Address Info">주소 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="수신 주소" data-en="Recipient Address">수신 주소</span></span><span class="fv mono">rN7n3473SaZBCG4dFL73ABC123XYZ456</span></div>
+    <div class="field xrp-tag"><span class="fl">· Destination Tag</span><span class="fv">987654321</span></div>
+    <div class="field"><span class="fl">· <span data-ko="수신 유형" data-en="Address Type">수신 유형</span></span><span class="fv"><span data-ko="외부 주소 (CODE 검증 완료)" data-en="External (CODE verified)">외부 주소 (CODE 검증 완료)</span></span></div>
     <div class="field"><span class="fl">· TXID</span><span class="fv mono">A1B2C3D4E5F6789012345678901234567890ABCD</span></div>
-    <div class="field"><span class="fl">· 블록 확인</span><span class="fv">1 confirm</span></div>
-    <div class="field"><span class="fl">· 메모</span><span class="fv">XRP 이전</span></div>
+    <div class="field"><span class="fl">· <span data-ko="블록 확인" data-en="Block Confirmations">블록 확인</span></span><span class="fv">1 confirm</span></div>
+    <div class="field"><span class="fl">· <span data-ko="메모" data-en="Memo">메모</span></span><span class="fv">XRP 이전</span></div>
   </div>
 
   <div class="sec">
-    <div class="sec-head">▣ 서명 이력</div>
-    <div class="sig-row"><span class="lbl">· 신청자</span><span class="val">홍Master <span style="color:#64748B;">(2026-04-05 16:00:00)</span></span></div>
-    <div class="sig-row"><span class="lbl">· 서명자 1</span><span class="val">홍Master <span style="color:#64748B;">(2026-04-05 16:05:00)</span><span class="check">✅</span></span></div>
-    <div class="sig-row"><span class="lbl">· 서명 정책</span><span class="val">1 of 1 <span class="policy">충족</span></span></div>
+    <div class="sec-head">▣ <span data-ko="서명 이력" data-en="Signature History">서명 이력</span></div>
+    <div class="sig-row"><span class="s-lbl">· <span data-ko="신청자" data-en="Initiator">신청자</span></span><span class="s-val">홍Master <span style="color:#64748B;">(2026-04-05 16:00:00)</span></span></div>
+    <div class="sig-row"><span class="s-lbl">· <span data-ko="서명자" data-en="Signer">서명자</span> 1</span><span class="s-val">홍Master <span style="color:#64748B;">(2026-04-05 16:05:00)</span><span class="check">✅</span></span></div>
+    <div class="sig-row"><span class="s-lbl">· <span data-ko="서명 정책" data-en="Signing Policy">서명 정책</span></span><span class="s-val">1 of 1 <span class="policy-badge"><span data-ko="충족" data-en="Met">충족</span></span></span></div>
   </div>
 
   <hr />
 
   <div class="cert">
-    <div>본 증빙은 위 거래의 발생 사실을 증명합니다.</div>
-    <div class="en">This certifies the occurrence of the above transaction.</div>
+    <div class="cert-main-v2">본 증빙은 위 거래의 발생 사실을 증명합니다.</div>
+    <div class="cert-sub-v2 cert-sub">This certifies the occurrence of the above transaction.</div>
   </div>
 
   <div class="sig">
-    <div>발급일: 2026년 04월 27일</div>
-    <div>주식회사 인피닛블록</div>
-    <div>대표이사 &nbsp;○ ○ ○&nbsp;<span class="seal"></span></div>
+    <div><span data-ko="발급일:" data-en="Date of Issuance:">발급일:</span> 2026년 04월 27일</div>
+    <div><span data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span></div>
+    <div class="sig-inner">
+      <span><span data-ko="대표이사" data-en="CEO">대표이사</span>&nbsp; 정구태</span>
+      <img src="../../assets/INBL%20STAMP.png" alt="직인" class="stamp-img" />
+    </div>
   </div>
 
   <hr />
@@ -261,82 +278,85 @@
   <div class="qr-row">
     <div class="qr-placeholder">QR<br/>20×20mm</div>
     <div class="qr-text">
-      <div><span class="lbl">검증 URL: </span><span class="mono">https://inbl.io/verify/TR-20260427-00002?code=D4E5F6G7</span></div>
-      <div><span class="lbl">검증 코드: </span><strong>D4E5-F6G7</strong></div>
+      <div><span class="lbl"><span data-ko="검증 URL:" data-en="Verification URL:">검증 URL:</span> </span><span class="mono">https://inbl.io/verify/TR-20260427-00002?code=D4E5F6G7</span></div>
+      <div><span class="lbl"><span data-ko="검증 코드:" data-en="Verification Code:">검증 코드:</span> </span><strong>D4E5-F6G7</strong></div>
     </div>
   </div>
 
   <div class="doc-footer">
-    <div>주식회사 인피닛블록 &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
-    <div>본 문서는 전자적으로 발급된 공식 증빙입니다.</div>
-    <div>1 / 1 페이지</div>
+    <div><span data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span> &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
+    <div><span data-ko="본 문서는 전자적으로 발급된 공식 증빙입니다." data-en="This document is an officially issued electronic certificate.">본 문서는 전자적으로 발급된 공식 증빙입니다.</span></div>
+    <div class="footer-page" data-ko="1 / 1 페이지" data-en-val="Page 1 of 1">1 / 1 페이지</div>
   </div>
 
 </div>
 
-<!-- ═══ VARIANT 3: 입금 완료 (USDT) ═══ -->
-<div class="page-label">▶ VARIANT 3 — 입금 완료 (USDT 예시, 신청ID·서명이력·메모 미표시)</div>
+<!-- ═══ VARIANT 3: 입금 완료 — USDT (신청 ID·서명·메모 미표시) ═══ -->
+<div class="page-label">▶ VARIANT 3 — 입금 완료 (USDT ERC20, 신청 ID·서명 이력·메모 미표시)</div>
 <div class="page">
   <div class="variant-tag">VARIANT 3: 입금 완료 — USDT ERC20</div>
 
   <div class="doc-header">
     <div class="logo-area"><img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" /></div>
     <div class="doc-meta">
-      <div class="lbl">문서번호</div>
+      <div class="lbl"><span data-ko="문서번호" data-en="Document No.">문서번호</span></div>
       <div class="val">TR-20260427-00003</div>
-      <div class="lbl" style="margin-top:4px;">발급일</div>
+      <div class="lbl" style="margin-top:4px;"><span data-ko="발급일" data-en="Issue Date">발급일</span></div>
       <div>2026-04-27</div>
     </div>
   </div>
   <hr />
 
   <div class="title-block">
-    <p class="ko">거 래 증 빙</p>
-    <p class="en">Transaction Receipt</p>
+    <p class="t-main title-main">거 래 증 빙</p>
+    <p class="t-sub title-sub">Transaction Receipt</p>
   </div>
   <hr />
 
   <div class="sec">
-    <div class="sec-head">▣ 거래 정보</div>
-    <div class="field"><span class="fl">· 거래 유형</span><span class="fv dep">입금 (Deposit)</span></div>
-    <div class="field"><span class="fl">· 거래 일시</span><span class="fv">2026-04-08 14:22:00 KST</span></div>
-    <div class="field"><span class="fl">· 상태</span><span class="fv" style="color:#16A34A;font-weight:600;">완료 (Completed)</span></div>
+    <div class="sec-head">▣ <span data-ko="거래 정보" data-en="Transaction Info">거래 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="거래 유형" data-en="Type">거래 유형</span></span><span class="fv dep"><span data-ko="입금 (Deposit)" data-en="Deposit">입금 (Deposit)</span></span></div>
+    <div class="field"><span class="fl">· <span data-ko="거래 일시" data-en="Timestamp">거래 일시</span></span><span class="fv">2026-04-08 14:22:00 KST</span></div>
+    <div class="field"><span class="fl">· <span data-ko="상태" data-en="Status">상태</span></span><span class="fv ok"><span data-ko="완료 (Completed)" data-en="Completed">완료 (Completed)</span></span></div>
   </div>
 
   <div class="sec">
-    <div class="sec-head">▣ 지갑 정보</div>
-    <div class="field"><span class="fl">· 고객사명</span><span class="fv">알파투자운용(주)</span></div>
-    <div class="field"><span class="fl">· 지갑명</span><span class="fv">운영 지갑 B</span></div>
-    <div class="field"><span class="fl">· 코인 / 네트워크</span><span class="fv">USDT / ERC20 (Ethereum)</span></div>
+    <div class="sec-head">▣ <span data-ko="지갑 정보" data-en="Wallet Info">지갑 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="고객사명" data-en="Company Name">고객사명</span></span><span class="fv company-val">알파투자운용(주) / Alpha Asset Management Co., Ltd.</span></div>
+    <div class="field"><span class="fl">· <span data-ko="지갑명" data-en="Wallet Name">지갑명</span></span><span class="fv">운영 지갑 B</span></div>
+    <div class="field"><span class="fl">· <span data-ko="코인 / 네트워크" data-en="Coin / Network">코인 / 네트워크</span></span><span class="fv">USDT / ERC20 (Ethereum)</span></div>
   </div>
 
   <div class="sec">
-    <div class="sec-head">▣ 거래 상세</div>
-    <div class="amount-section">
-      <div class="amount-row"><span class="lbl">입금 수량</span><span class="val mono dep">5,000.00 USDT</span></div>
-      <div class="amount-row"><span class="lbl">원화 환산</span><span class="val">₩ 6,900,000 <span style="color:#64748B;font-size:8pt;font-weight:400;">(거래 시점 기준)</span></span></div>
+    <div class="sec-head">▣ <span data-ko="거래 상세" data-en="Transaction Details">거래 상세</span></div>
+    <div class="amount-box">
+      <div class="amount-row"><span class="a-lbl"><span data-ko="입금 수량" data-en="Deposit Amount">입금 수량</span></span><span class="a-val dep" style="font-family:'Courier New',monospace;">5,000.00 USDT</span></div>
+      <div class="amount-row"><span class="a-lbl"><span data-ko="원화 환산" data-en="KRW Equivalent">원화 환산</span></span><span class="a-val" style="font-family:inherit;font-size:8.5pt;">₩ 6,900,000 <span style="color:#64748B;font-weight:400;font-size:8pt;">(<span data-ko="거래 시점 기준" data-en="at transaction time">거래 시점 기준</span>)</span></span></div>
     </div>
   </div>
 
   <div class="sec">
-    <div class="sec-head">▣ 주소 정보</div>
-    <div class="field"><span class="fl">· 송신 주소</span><span class="fv mono">0x1234567890ABCDEF1234567890ABCDEF12345678</span></div>
-    <div class="field"><span class="fl">· 송신 주소 유형</span><span class="fv">Whitelist 등록 주소</span></div>
+    <div class="sec-head">▣ <span data-ko="주소 정보" data-en="Address Info">주소 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="송신 주소" data-en="Sender Address">송신 주소</span></span><span class="fv mono">0x1234567890ABCDEF1234567890ABCDEF12345678</span></div>
+    <div class="field"><span class="fl">· <span data-ko="송신 주소 유형" data-en="Sender Address Type">송신 주소 유형</span></span><span class="fv"><span data-ko="Whitelist 등록 주소" data-en="Whitelisted Address">Whitelist 등록 주소</span></span></div>
     <div class="field"><span class="fl">· TXID</span><span class="fv mono">0xA1B2C3D4E5F6789012345678901234567890ABCDEF1234567890ABCDEF123456</span></div>
-    <div class="field"><span class="fl">· 블록 확인</span><span class="fv">12 confirms</span></div>
+    <div class="field"><span class="fl">· <span data-ko="블록 확인" data-en="Block Confirmations">블록 확인</span></span><span class="fv">12 confirms</span></div>
   </div>
 
   <hr />
 
   <div class="cert">
-    <div>본 증빙은 위 거래의 발생 사실을 증명합니다.</div>
-    <div class="en">This certifies the occurrence of the above transaction.</div>
+    <div class="cert-main-v3">본 증빙은 위 거래의 발생 사실을 증명합니다.</div>
+    <div class="cert-sub-v3 cert-sub">This certifies the occurrence of the above transaction.</div>
   </div>
 
   <div class="sig">
-    <div>발급일: 2026년 04월 27일</div>
-    <div>주식회사 인피닛블록</div>
-    <div>대표이사 &nbsp;○ ○ ○&nbsp;<span class="seal"></span></div>
+    <div><span data-ko="발급일:" data-en="Date of Issuance:">발급일:</span> 2026년 04월 27일</div>
+    <div><span data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span></div>
+    <div class="sig-inner">
+      <span><span data-ko="대표이사" data-en="CEO">대표이사</span>&nbsp; 정구태</span>
+      <img src="../../assets/INBL%20STAMP.png" alt="직인" class="stamp-img" />
+    </div>
   </div>
 
   <hr />
@@ -344,32 +364,82 @@
   <div class="qr-row">
     <div class="qr-placeholder">QR<br/>20×20mm</div>
     <div class="qr-text">
-      <div><span class="lbl">검증 URL: </span><span class="mono">https://inbl.io/verify/TR-20260427-00003?code=E5F6G7H8</span></div>
-      <div><span class="lbl">검증 코드: </span><strong>E5F6-G7H8</strong></div>
+      <div><span class="lbl"><span data-ko="검증 URL:" data-en="Verification URL:">검증 URL:</span> </span><span class="mono">https://inbl.io/verify/TR-20260427-00003?code=E5F6G7H8</span></div>
+      <div><span class="lbl"><span data-ko="검증 코드:" data-en="Verification Code:">검증 코드:</span> </span><strong>E5F6-G7H8</strong></div>
     </div>
   </div>
 
   <div class="doc-footer">
-    <div>주식회사 인피닛블록 &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
-    <div>본 문서는 전자적으로 발급된 공식 증빙입니다.</div>
-    <div>1 / 1 페이지</div>
+    <div><span data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span> &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
+    <div><span data-ko="본 문서는 전자적으로 발급된 공식 증빙입니다." data-en="This document is an officially issued electronic certificate.">본 문서는 전자적으로 발급된 공식 증빙입니다.</span></div>
+    <div class="footer-page" data-ko="1 / 1 페이지" data-en-val="Page 1 of 1">1 / 1 페이지</div>
   </div>
 
 </div>
 
-<!-- ═══ 분기 규칙 ═══ -->
-<div style="width:794px;margin:0 auto 28px;background:#1E293B;color:#94A3B8;padding:20px 28px;box-sizing:border-box;font-size:8pt;font-family:monospace;line-height:1.8;">
-  <div style="color:#F8FAFC;font-weight:700;margin-bottom:8px;">§12-13-21-4 데이터 분기 규칙</div>
+<div class="spec-rules">
+  <div class="spec-rules-title">§12-13-21-4 데이터 분기 규칙</div>
   <div>코인 = XRP &nbsp;→&nbsp; <span style="color:#FCD34D;">"Destination Tag" 행 추가 (값 또는 "—(미입력)")</span></div>
   <div>코인 ≠ XRP &nbsp;→&nbsp; Destination Tag 행 미표시</div>
   <div>출금 — 내부 지갑 이전 &nbsp;→&nbsp; "수신 유형: 내부 지갑 이전" + "수신 지갑명" 추가</div>
   <div>출금 — Whitelist &nbsp;→&nbsp; "수신 유형: Whitelist 등록 주소" + "Whitelist 이름" 추가</div>
-  <div>입금 — 신청 ID / 서명 이력 / 메모 &nbsp;→&nbsp; 미표시</div>
-  <div>출금 — 네트워크 수수료 &nbsp;→&nbsp; 표시 | 입금 &nbsp;→&nbsp; 미표시</div>
+  <div>입금 &nbsp;→&nbsp; 신청 ID / 서명 이력 / 메모 미표시, 수수료 / 총 출금액 미표시</div>
   <div>출금 중 (TXID 있음) &nbsp;→&nbsp; 상태: "출금 중", 블록 확인: "0 confirm — 전파 중"</div>
   <div>메모 미입력 &nbsp;→&nbsp; <span style="color:#FCA5A5;">"메모" 행 미표시</span></div>
   <div>영문 발급 &nbsp;→&nbsp; 모든 항목 영문</div>
 </div>
 
+<script>
+  const CERT_KO = '본 증빙은 위 거래의 발생 사실을 증명합니다.';
+  const CERT_EN = 'This certifies the occurrence of the above transaction.';
+
+  function setLang(mode, btn) {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    /* ── simple [data-ko] spans ── */
+    document.querySelectorAll('[data-ko]').forEach(el => {
+      const ko = el.dataset.ko, en = el.dataset.en;
+      if (!en) return;
+      if (mode === 'ko') el.textContent = ko;
+      else if (mode === 'en') el.textContent = en;
+      else el.textContent = ko + ' / ' + en;
+    });
+
+    /* ── titles (all 3 variants) ── */
+    document.querySelectorAll('.title-main').forEach(el => {
+      if (mode === 'ko') el.textContent = '거 래 증 빙';
+      else if (mode === 'en') el.textContent = 'Transaction Receipt';
+      else el.textContent = '거래증빙 / Transaction Receipt';
+    });
+    document.querySelectorAll('.title-sub').forEach(el => {
+      if (mode === 'ko') { el.textContent = 'Transaction Receipt'; el.style.display = ''; }
+      else if (mode === 'en') { el.textContent = '거래증빙'; el.style.display = ''; }
+      else el.style.display = 'none';
+    });
+
+    /* ── cert (per variant) ── */
+    ['v1','v2','v3'].forEach(v => {
+      const main = document.querySelector('.cert-main-' + v);
+      const sub  = document.querySelector('.cert-sub-' + v);
+      if (!main) return;
+      if (mode === 'ko') { main.textContent = CERT_KO; sub.style.display = 'none'; }
+      else if (mode === 'en') { main.textContent = CERT_EN; sub.style.display = 'none'; }
+      else { main.textContent = CERT_KO; sub.textContent = CERT_EN; sub.style.display = ''; }
+    });
+
+    /* ── company value ── */
+    document.querySelectorAll('.company-val').forEach(el => {
+      if (mode === 'en') el.textContent = 'Alpha Asset Management Co., Ltd.';
+      else el.textContent = '알파투자운용(주) / Alpha Asset Management Co., Ltd.';
+    });
+
+    /* ── footer page ── */
+    document.querySelectorAll('.footer-page').forEach(el => {
+      if (mode === 'en') el.textContent = el.dataset.enVal;
+      else el.textContent = el.dataset.ko;
+    });
+  }
+</script>
 </body>
 </html>

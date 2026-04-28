@@ -7,12 +7,16 @@
   <style>
     body{margin:0;background:#525659;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;font-size:10pt;color:#1E293B;}
 
-    .spec-bar{background:#0F172A;color:#94A3B8;font-size:11px;font-family:monospace;text-align:center;padding:8px 16px;letter-spacing:.04em;position:sticky;top:0;z-index:10;}
-    .spec-bar strong{color:#fff;}
+    .spec-bar{background:#0F172A;color:#94A3B8;font-size:11px;font-family:monospace;display:flex;justify-content:space-between;align-items:center;padding:8px 16px;position:sticky;top:0;z-index:10;gap:12px;}
+    .spec-info strong{color:#fff;}
+    .lang-toggle{display:flex;gap:4px;flex-shrink:0;}
+    .lang-btn{background:transparent;border:1px solid #475569;color:#94A3B8;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:11px;font-family:monospace;letter-spacing:.04em;}
+    .lang-btn.active{background:#3B82F6;border-color:#3B82F6;color:#fff;}
+    .lang-btn:hover:not(.active){border-color:#64748B;color:#CBD5E1;}
 
-    .page-label{width:794px;margin:20px auto 6px;font-family:monospace;font-size:10px;color:#94A3B8;text-align:left;padding:0 4px;}
+    .page-label{width:794px;margin:20px auto 6px;font-family:monospace;font-size:10px;color:#94A3B8;padding:0 4px;}
 
-    .page{width:794px;min-height:1123px;margin:0 auto 28px;background:#fff;padding:94px 76px;box-sizing:border-box;box-shadow:0 4px 28px rgba(0,0,0,.45);position:relative;}
+    .page{width:794px;min-height:1123px;margin:0 auto 28px;background:#fff;padding:94px 76px;box-sizing:border-box;box-shadow:0 4px 28px rgba(0,0,0,.45);}
 
     .doc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
     .logo-area img{height:34px;display:block;}
@@ -23,17 +27,17 @@
     hr{border:none;border-top:1px solid #E2E8F0;margin:10px 0;}
 
     .title-block{text-align:center;margin:16px 0 14px;}
-    .title-block .ko{font-size:18pt;font-weight:700;letter-spacing:.22em;color:#0F172A;margin:0;}
-    .title-block .en{font-size:9.5pt;color:#64748B;margin:3px 0 0;}
+    .title-block .t-main{font-size:18pt;font-weight:700;letter-spacing:.22em;color:#0F172A;margin:0;}
+    .title-block .t-sub{font-size:9.5pt;color:#64748B;margin:3px 0 0;}
 
     .sec{margin-bottom:12px;}
     .sec-head{font-size:8.5pt;font-weight:700;color:#0F172A;margin:0 0 5px;}
     .field{display:flex;font-size:8.5pt;line-height:1.9;}
-    .fl{width:112px;color:#64748B;flex-shrink:0;}
+    .fl{width:126px;color:#64748B;flex-shrink:0;}
     .fv{flex:1;color:#1E293B;}
 
     table{width:100%;border-collapse:collapse;font-size:8pt;color:#1E293B;}
-    th{background:#F8FAFC;color:#64748B;font-weight:600;padding:5px 8px;border:1px solid #E2E8F0;text-align:left;white-space:nowrap;}
+    th{background:#F8FAFC;color:#64748B;font-weight:600;padding:5px 8px;border:1px solid #E2E8F0;text-align:left;}
     td{padding:4px 8px;border:1px solid #E2E8F0;vertical-align:middle;}
     tr:nth-child(even) td{background:#FAFAFA;}
     .r{text-align:right;}
@@ -47,11 +51,11 @@
     .notes{font-size:7.5pt;color:#64748B;line-height:1.9;margin:4px 0 0;}
 
     .cert{text-align:center;font-size:9pt;line-height:1.9;margin:10px 0 6px;}
-    .cert .en{color:#64748B;font-size:8.5pt;}
+    .cert-sub{color:#64748B;font-size:8.5pt;display:none;}
 
-    .sig{text-align:right;font-size:9pt;line-height:2.1;margin:8px 0;}
-    .seal{display:inline-block;width:58px;height:58px;border:2.5px solid #C8102E;border-radius:50%;vertical-align:middle;margin-left:10px;position:relative;}
-    .seal::after{content:'직인';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8pt;color:#C8102E;}
+    .sig{text-align:right;font-size:9pt;line-height:2.1;margin:8px 0;display:flex;flex-direction:column;align-items:flex-end;}
+    .sig-inner{display:flex;align-items:center;gap:10px;}
+    .stamp-img{height:58px;width:58px;object-fit:contain;display:block;}
 
     .qr-row{display:flex;align-items:flex-start;gap:14px;margin-top:10px;padding-top:10px;border-top:1px solid #E2E8F0;}
     .qr-placeholder{width:76px;height:76px;border:1px solid #CBD5E1;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7pt;color:#94A3B8;text-align:center;}
@@ -61,77 +65,85 @@
 
     .doc-footer{display:flex;justify-content:space-between;align-items:center;font-size:7.5pt;color:#64748B;margin-top:10px;padding-top:7px;border-top:1px solid #E2E8F0;}
 
-    .page-filler{border:1.5px dashed #CBD5E1;border-radius:4px;padding:16px;text-align:center;font-size:8pt;color:#94A3B8;margin:12px 0;}
+    .page-filler{border:1.5px dashed #CBD5E1;border-radius:4px;padding:14px;text-align:center;font-size:8pt;color:#94A3B8;margin:12px 0;}
+
+    .spec-rules{width:794px;margin:0 auto 28px;background:#1E293B;color:#94A3B8;padding:20px 28px;box-sizing:border-box;font-size:8pt;font-family:monospace;line-height:1.8;}
+    .spec-rules-title{color:#F8FAFC;font-weight:700;margin-bottom:8px;}
   </style>
 </head>
 <body>
 
-<div class="spec-bar"><strong>§12-13-21-3</strong> &nbsp;│&nbsp; 거래명세서 (Transaction Statement) &nbsp;│&nbsp; PDF 콘텐츠 명세 — HTML 프리뷰 &nbsp;│&nbsp; TS-YYYYMMDD-NNNNN</div>
+<div class="spec-bar">
+  <div class="spec-info"><strong>§12-13-21-3</strong> &nbsp;│&nbsp; 거래명세서 (Transaction Statement) &nbsp;│&nbsp; PDF 콘텐츠 명세 — TS-YYYYMMDD-NNNNN</div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('ko',this)">국문</button>
+    <button class="lang-btn" onclick="setLang('en',this)">영문</button>
+    <button class="lang-btn" onclick="setLang('bi',this)">국+영</button>
+  </div>
+</div>
 
 <!-- ═══ PAGE 1 ═══ -->
 <div class="page-label">▶ PAGE 1 — 발급 정보 + 거래 요약 + 거래 내역 (최대 30건)</div>
 <div class="page">
 
   <div class="doc-header">
-    <div class="logo-area">
-      <img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" />
-    </div>
+    <div class="logo-area"><img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" /></div>
     <div class="doc-meta">
-      <div class="lbl">문서번호</div>
+      <div class="lbl"><span data-ko="문서번호" data-en="Document No.">문서번호</span></div>
       <div class="val">TS-20260427-00001</div>
-      <div class="lbl" style="margin-top:4px;">발급일</div>
+      <div class="lbl" style="margin-top:4px;"><span data-ko="발급일" data-en="Issue Date">발급일</span></div>
       <div>2026-04-27</div>
     </div>
   </div>
   <hr />
 
   <div class="title-block">
-    <p class="ko">거 래 명 세 서</p>
-    <p class="en">Transaction Statement</p>
+    <p class="t-main title-main">거 래 명 세 서</p>
+    <p class="t-sub title-sub">Transaction Statement</p>
   </div>
   <hr />
 
   <div class="sec">
-    <div class="sec-head">▣ 발급 정보</div>
-    <div class="field"><span class="fl">· 발급 일시</span><span class="fv">2026-04-27 14:30:00 KST</span></div>
-    <div class="field"><span class="fl">· 조회 기간</span><span class="fv">2026-04-01 ~ 2026-04-27 (27일간)</span></div>
-    <div class="field"><span class="fl">· 발급 범위</span><span class="fv">운영 지갑 A, 운영 지갑 B (2개 지갑)</span></div>
-    <div class="field"><span class="fl">· 발급 용도</span><span class="fv">세무 신고 자료</span></div>
-    <div class="field"><span class="fl">· 발송 대상</span><span class="fv">master@company.com (Master)</span></div>
+    <div class="sec-head">▣ <span data-ko="발급 정보" data-en="Issuance Information">발급 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="발급 일시" data-en="Issued At">발급 일시</span></span><span class="fv">2026-04-27 14:30:00 KST</span></div>
+    <div class="field"><span class="fl">· <span data-ko="조회 기간" data-en="Period">조회 기간</span></span><span class="fv">2026-04-01 ~ 2026-04-27 (27일간)</span></div>
+    <div class="field"><span class="fl">· <span data-ko="발급 범위" data-en="Wallet Scope">발급 범위</span></span><span class="fv">운영 지갑 A, 운영 지갑 B (2개 지갑)</span></div>
+    <div class="field"><span class="fl">· <span data-ko="발급 용도" data-en="Purpose">발급 용도</span></span><span class="fv">세무 신고 자료</span></div>
+    <div class="field"><span class="fl">· <span data-ko="발송 대상" data-en="Sent To">발송 대상</span></span><span class="fv">master@company.com (Master)</span></div>
   </div>
 
   <div class="sec">
-    <div class="sec-head">▣ 고객사 정보</div>
-    <div class="field"><span class="fl">· 고객사명</span><span class="fv">알파투자운용(주) / Alpha Asset Management Co., Ltd.</span></div>
-    <div class="field"><span class="fl">· 사업자번호</span><span class="fv">123-45-67890</span></div>
-    <div class="field"><span class="fl">· 대표자</span><span class="fv">김대표</span></div>
+    <div class="sec-head">▣ <span data-ko="고객사 정보" data-en="Customer Information">고객사 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="고객사명" data-en="Company Name">고객사명</span></span><span class="fv company-val">알파투자운용(주) / Alpha Asset Management Co., Ltd.</span></div>
+    <div class="field"><span class="fl">· <span data-ko="사업자번호" data-en="Business Reg. No.">사업자번호</span></span><span class="fv">123-45-67890</span></div>
+    <div class="field"><span class="fl">· <span data-ko="대표자" data-en="Representative">대표자</span></span><span class="fv">김대표</span></div>
   </div>
 
   <hr />
 
   <div class="sec">
-    <div class="sec-head">▣ 거래 요약</div>
+    <div class="sec-head">▣ <span data-ko="거래 요약" data-en="Transaction Summary">거래 요약</span></div>
     <table style="margin-bottom:10px;">
       <thead>
         <tr>
-          <th>구분</th>
-          <th class="r">건수</th>
-          <th class="r">합계 (KRW)</th>
+          <th><span data-ko="구분" data-en="Type">구분</span></th>
+          <th class="r"><span data-ko="건수" data-en="Count">건수</span></th>
+          <th class="r"><span data-ko="합계 (KRW)" data-en="Total (KRW)">합계 (KRW)</span></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="dep">입금</td>
+          <td class="dep"><span data-ko="입금" data-en="Deposit">입금</span></td>
           <td class="r dep">12건</td>
           <td class="r dep">+₩ 348,520,000</td>
         </tr>
         <tr>
-          <td class="wd">출금</td>
+          <td class="wd"><span data-ko="출금" data-en="Withdrawal">출금</span></td>
           <td class="r wd">8건</td>
           <td class="r wd">-₩ 215,000,000</td>
         </tr>
         <tr class="tot">
-          <td>순증감</td>
+          <td><span data-ko="순증감" data-en="Net Change">순증감</span></td>
           <td class="r">20건</td>
           <td class="r dep">+₩ 133,520,000</td>
         </tr>
@@ -142,18 +154,18 @@
   <hr />
 
   <div class="sec">
-    <div class="sec-head">▣ 거래 내역</div>
+    <div class="sec-head">▣ <span data-ko="거래 내역" data-en="Transaction Details">거래 내역</span></div>
     <table>
       <thead>
         <tr>
-          <th style="width:24px;">No</th>
-          <th style="width:68px;">일시 (KST)</th>
-          <th>지갑</th>
-          <th style="width:36px;">유형</th>
-          <th style="width:40px;">코인</th>
-          <th>네트워크</th>
-          <th class="r">수량</th>
-          <th class="r">환산 (KRW)</th>
+          <th style="width:24px;"><span data-ko="No" data-en="No">No</span></th>
+          <th style="width:68px;"><span data-ko="일시 (KST)" data-en="Date (KST)">일시 (KST)</span></th>
+          <th><span data-ko="지갑" data-en="Wallet">지갑</span></th>
+          <th style="width:36px;"><span data-ko="유형" data-en="Type">유형</span></th>
+          <th style="width:40px;"><span data-ko="코인" data-en="Coin">코인</span></th>
+          <th><span data-ko="네트워크" data-en="Network">네트워크</span></th>
+          <th class="r"><span data-ko="수량" data-en="Amount">수량</span></th>
+          <th class="r"><span data-ko="환산 (KRW)" data-en="KRW Equiv.">환산 (KRW)</span></th>
         </tr>
       </thead>
       <tbody>
@@ -161,7 +173,7 @@
           <td class="r">1</td>
           <td class="mono" style="font-size:7pt;">04-09<br/>10:30</td>
           <td>운영지갑 A</td>
-          <td class="c wd">출금</td>
+          <td class="c wd"><span data-ko="출금" data-en="WD">출금</span></td>
           <td class="c">BTC</td>
           <td>Mainnet</td>
           <td class="r mono wd">-1.00000000</td>
@@ -171,7 +183,7 @@
           <td class="r">2</td>
           <td class="mono" style="font-size:7pt;">04-08<br/>14:22</td>
           <td>운영지갑 B</td>
-          <td class="c dep">입금</td>
+          <td class="c dep"><span data-ko="입금" data-en="DEP">입금</span></td>
           <td class="c">USDT</td>
           <td>ERC20</td>
           <td class="r mono dep">+5,000.00</td>
@@ -181,7 +193,7 @@
           <td class="r">3</td>
           <td class="mono" style="font-size:7pt;">04-07<br/>09:05</td>
           <td>운영지갑 A</td>
-          <td class="c dep">입금</td>
+          <td class="c dep"><span data-ko="입금" data-en="DEP">입금</span></td>
           <td class="c">ETH</td>
           <td>Mainnet</td>
           <td class="r mono dep">+2.00000000</td>
@@ -191,61 +203,61 @@
           <td class="r">4</td>
           <td class="mono" style="font-size:7pt;">04-05<br/>16:44</td>
           <td>운영지갑 B</td>
-          <td class="c wd">출금</td>
+          <td class="c wd"><span data-ko="출금" data-en="WD">출금</span></td>
           <td class="c">XRP</td>
           <td>XRP Ledger</td>
           <td class="r mono wd">-100.000000</td>
           <td class="r wd">-₩ 78,000</td>
         </tr>
         <tr>
-          <td class="r c" colspan="8" style="color:#94A3B8;font-size:7.5pt;padding:6px;">
-            … (페이지당 최대 30건 표시 — 31건 이상 시 다음 페이지에 계속)
+          <td colspan="8" class="c" style="color:#94A3B8;font-size:7.5pt;padding:6px;">
+            … (페이지당 최대 30건 — 31건 이상 시 다음 페이지에 계속)
           </td>
         </tr>
       </tbody>
     </table>
     <div class="notes">
-      <div>※ 출금 수량은 수신자가 받은 금액 기준입니다. 네트워크 수수료는 마지막 페이지 부록에 표시됩니다.</div>
-      <div>※ 거절·보류 상태 거래는 포함되지 않습니다. 환산금액은 거래 시점의 시세 기준입니다.</div>
+      <div class="note-ko">※ 출금 수량은 수신자가 받은 금액 기준입니다. 네트워크 수수료는 마지막 페이지 부록에 표시됩니다.</div>
+      <div class="note-en" style="display:none;">※ Withdrawal amount reflects what the recipient received. Network fees are shown in the last-page appendix.</div>
+      <div class="note-ko">※ 거절·보류 상태 거래는 포함되지 않습니다. 환산금액은 거래 시점의 시세 기준입니다.</div>
+      <div class="note-en" style="display:none;">※ Rejected and held transactions are excluded. KRW conversion is based on the rate at the time of each transaction.</div>
     </div>
   </div>
 
   <div class="doc-footer">
-    <div>주식회사 인피닛블록 &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
-    <div>본 문서는 전자적으로 발급된 공식 증빙입니다.</div>
-    <div>1 / 3 페이지</div>
+    <div><span class="footer-company" data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span> &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
+    <div><span data-ko="본 문서는 전자적으로 발급된 공식 증빙입니다." data-en="This document is an officially issued electronic certificate.">본 문서는 전자적으로 발급된 공식 증빙입니다.</span></div>
+    <div class="footer-page" data-ko="1 / 3 페이지" data-en-val="Page 1 of 3">1 / 3 페이지</div>
   </div>
 
 </div>
 
-<!-- ═══ PAGE 2 (중간 — 거래 내역 계속) ═══ -->
+<!-- ═══ PAGE 2 ~ N-1 ═══ -->
 <div class="page-label">▶ PAGE 2 ~ N-1 — 거래 내역 계속 (페이지당 50건)</div>
 <div class="page">
 
   <div class="doc-header">
-    <div class="logo-area">
-      <img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" />
-    </div>
+    <div class="logo-area"><img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" /></div>
     <div class="doc-meta">
-      <div class="lbl">문서번호</div>
+      <div class="lbl"><span data-ko="문서번호" data-en="Document No.">문서번호</span></div>
       <div class="val">TS-20260427-00001</div>
     </div>
   </div>
   <hr />
 
   <div class="sec">
-    <div class="sec-head">▣ 거래 내역 (계속)</div>
+    <div class="sec-head">▣ <span data-ko="거래 내역 (계속)" data-en="Transaction Details (continued)">거래 내역 (계속)</span></div>
     <table>
       <thead>
         <tr>
-          <th style="width:24px;">No</th>
-          <th style="width:68px;">일시 (KST)</th>
-          <th>지갑</th>
-          <th style="width:36px;">유형</th>
-          <th style="width:40px;">코인</th>
-          <th>네트워크</th>
-          <th class="r">수량</th>
-          <th class="r">환산 (KRW)</th>
+          <th style="width:24px;"><span data-ko="No" data-en="No">No</span></th>
+          <th style="width:68px;"><span data-ko="일시 (KST)" data-en="Date (KST)">일시 (KST)</span></th>
+          <th><span data-ko="지갑" data-en="Wallet">지갑</span></th>
+          <th style="width:36px;"><span data-ko="유형" data-en="Type">유형</span></th>
+          <th style="width:40px;"><span data-ko="코인" data-en="Coin">코인</span></th>
+          <th><span data-ko="네트워크" data-en="Network">네트워크</span></th>
+          <th class="r"><span data-ko="수량" data-en="Amount">수량</span></th>
+          <th class="r"><span data-ko="환산 (KRW)" data-en="KRW Equiv.">환산 (KRW)</span></th>
         </tr>
       </thead>
       <tbody>
@@ -253,22 +265,20 @@
           <td class="r">31</td>
           <td class="mono" style="font-size:7pt;">04-04<br/>11:00</td>
           <td>운영지갑 A</td>
-          <td class="c dep">입금</td>
+          <td class="c dep"><span data-ko="입금" data-en="DEP">입금</span></td>
           <td class="c">BTC</td>
           <td>Mainnet</td>
           <td class="r mono dep">+0.50000000</td>
           <td class="r dep">+₩ 70,000,000</td>
         </tr>
         <tr>
-          <td class="r c" colspan="8" style="color:#94A3B8;font-size:7.5pt;padding:12px;">
-            … (중간 페이지에는 헤더 반복 + 거래 내역 50건만 표시)
-          </td>
+          <td colspan="8" class="c" style="color:#94A3B8;font-size:7.5pt;padding:12px;">… (중간 페이지: 거래 내역 50건 표시)</td>
         </tr>
         <tr>
           <td class="r">80</td>
           <td class="mono" style="font-size:7pt;">04-01<br/>08:15</td>
           <td>운영지갑 B</td>
-          <td class="c dep">입금</td>
+          <td class="c dep"><span data-ko="입금" data-en="DEP">입금</span></td>
           <td class="c">USDC</td>
           <td>ERC20</td>
           <td class="r mono dep">+20,000.00</td>
@@ -278,44 +288,42 @@
     </table>
   </div>
 
-  <div class="page-filler">중간 페이지: 거래 내역 행이 50건 채워진 후 → 다음 페이지로 이어집니다.</div>
+  <div class="page-filler">중간 페이지: 거래 내역 행 50건이 채워진 후 다음 페이지로 이어집니다.</div>
 
   <div class="doc-footer">
-    <div>주식회사 인피닛블록 &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
-    <div>본 문서는 전자적으로 발급된 공식 증빙입니다.</div>
-    <div>2 / 3 페이지</div>
+    <div><span class="footer-company" data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span> &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
+    <div><span data-ko="본 문서는 전자적으로 발급된 공식 증빙입니다." data-en="This document is an officially issued electronic certificate.">본 문서는 전자적으로 발급된 공식 증빙입니다.</span></div>
+    <div class="footer-page" data-ko="2 / 3 페이지" data-en-val="Page 2 of 3">2 / 3 페이지</div>
   </div>
 
 </div>
 
-<!-- ═══ PAGE N (마지막) — 부록 + 직인 + QR ═══ -->
-<div class="page-label">▶ PAGE N (마지막) — 거래 내역 마지막 + 부록(수수료) + 직인 + QR</div>
+<!-- ═══ PAGE N (마지막) ═══ -->
+<div class="page-label">▶ PAGE N (마지막) — 거래 내역 마지막 + 부록 (수수료 상세) + 직인 + QR</div>
 <div class="page">
 
   <div class="doc-header">
-    <div class="logo-area">
-      <img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" />
-    </div>
+    <div class="logo-area"><img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" /></div>
     <div class="doc-meta">
-      <div class="lbl">문서번호</div>
+      <div class="lbl"><span data-ko="문서번호" data-en="Document No.">문서번호</span></div>
       <div class="val">TS-20260427-00001</div>
     </div>
   </div>
   <hr />
 
   <div class="sec">
-    <div class="sec-head">▣ 거래 내역 (계속)</div>
+    <div class="sec-head">▣ <span data-ko="거래 내역 (계속)" data-en="Transaction Details (continued)">거래 내역 (계속)</span></div>
     <table style="margin-bottom:8px;">
       <thead>
         <tr>
-          <th style="width:24px;">No</th>
-          <th style="width:68px;">일시 (KST)</th>
-          <th>지갑</th>
-          <th style="width:36px;">유형</th>
-          <th style="width:40px;">코인</th>
-          <th>네트워크</th>
-          <th class="r">수량</th>
-          <th class="r">환산 (KRW)</th>
+          <th style="width:24px;"><span data-ko="No" data-en="No">No</span></th>
+          <th style="width:68px;"><span data-ko="일시 (KST)" data-en="Date (KST)">일시 (KST)</span></th>
+          <th><span data-ko="지갑" data-en="Wallet">지갑</span></th>
+          <th style="width:36px;"><span data-ko="유형" data-en="Type">유형</span></th>
+          <th style="width:40px;"><span data-ko="코인" data-en="Coin">코인</span></th>
+          <th><span data-ko="네트워크" data-en="Network">네트워크</span></th>
+          <th class="r"><span data-ko="수량" data-en="Amount">수량</span></th>
+          <th class="r"><span data-ko="환산 (KRW)" data-en="KRW Equiv.">환산 (KRW)</span></th>
         </tr>
       </thead>
       <tbody>
@@ -323,7 +331,7 @@
           <td class="r">81</td>
           <td class="mono" style="font-size:7pt;">04-01<br/>07:00</td>
           <td>운영지갑 A</td>
-          <td class="c wd">출금</td>
+          <td class="c wd"><span data-ko="출금" data-en="WD">출금</span></td>
           <td class="c">ETH</td>
           <td>Mainnet</td>
           <td class="r mono wd">-1.00000000</td>
@@ -336,17 +344,20 @@
   <hr />
 
   <div class="sec">
-    <div class="sec-head">▣ 부록 — 출금 거래 네트워크 수수료 상세</div>
-    <div class="notes" style="margin-bottom:6px;">출금 거래 중 수수료 발생 건만 표시. 입금 건은 제외.</div>
+    <div class="sec-head">▣ <span data-ko="부록 — 출금 거래 네트워크 수수료 상세" data-en="Appendix — Network Fee Details (Withdrawal)">부록 — 출금 거래 네트워크 수수료 상세</span></div>
+    <div class="notes" style="margin-bottom:6px;">
+      <div class="note-ko">출금 거래 중 수수료 발생 건만 표시. 입금 건은 제외.</div>
+      <div class="note-en" style="display:none;">Only withdrawal transactions with network fees are shown. Deposits are excluded.</div>
+    </div>
     <table>
       <thead>
         <tr>
           <th style="width:24px;">No</th>
-          <th>신청 ID</th>
-          <th style="width:40px;">코인</th>
-          <th class="r">수수료</th>
-          <th class="r">출금 수량</th>
-          <th class="r">총 출금액</th>
+          <th><span data-ko="신청 ID" data-en="Request ID">신청 ID</span></th>
+          <th style="width:40px;"><span data-ko="코인" data-en="Coin">코인</span></th>
+          <th class="r"><span data-ko="수수료" data-en="Network Fee">수수료</span></th>
+          <th class="r"><span data-ko="출금 수량" data-en="WD Amount">출금 수량</span></th>
+          <th class="r"><span data-ko="총 출금액" data-en="Total WD">총 출금액</span></th>
         </tr>
       </thead>
       <tbody>
@@ -381,14 +392,17 @@
   <hr />
 
   <div class="cert">
-    <div>본 명세서는 위 기간 동안 발생한 거래 내역을 증명합니다.</div>
-    <div class="en">This statement certifies the transaction details for the above period.</div>
+    <div id="cert-main">본 명세서는 위 기간 동안 발생한 거래 내역을 증명합니다.</div>
+    <div class="cert-sub" id="cert-sub">This statement certifies the transaction details for the above period.</div>
   </div>
 
   <div class="sig">
-    <div>발급일: 2026년 04월 27일</div>
-    <div>주식회사 인피닛블록</div>
-    <div>대표이사 &nbsp;○ ○ ○&nbsp;<span class="seal"></span></div>
+    <div><span data-ko="발급일:" data-en="Date of Issuance:">발급일:</span> 2026년 04월 27일</div>
+    <div><span data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span></div>
+    <div class="sig-inner">
+      <span><span data-ko="대표이사" data-en="CEO">대표이사</span>&nbsp; 정구태</span>
+      <img src="../../assets/INBL%20STAMP.png" alt="직인" class="stamp-img" />
+    </div>
   </div>
 
   <hr />
@@ -396,22 +410,21 @@
   <div class="qr-row">
     <div class="qr-placeholder">QR<br/>20×20mm</div>
     <div class="qr-text">
-      <div><span class="lbl">검증 URL: </span><span class="mono">https://inbl.io/verify/TS-20260427-00001?code=B2C3D4E5</span></div>
-      <div><span class="lbl">검증 코드: </span><strong>B2C3-D4E5</strong></div>
+      <div><span class="lbl"><span data-ko="검증 URL:" data-en="Verification URL:">검증 URL:</span> </span><span class="mono">https://inbl.io/verify/TS-20260427-00001?code=B2C3D4E5</span></div>
+      <div><span class="lbl"><span data-ko="검증 코드:" data-en="Verification Code:">검증 코드:</span> </span><strong>B2C3-D4E5</strong></div>
     </div>
   </div>
 
   <div class="doc-footer">
-    <div>주식회사 인피닛블록 &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
-    <div>본 문서는 전자적으로 발급된 공식 증빙입니다.</div>
-    <div>3 / 3 페이지</div>
+    <div><span class="footer-company" data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span> &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
+    <div><span data-ko="본 문서는 전자적으로 발급된 공식 증빙입니다." data-en="This document is an officially issued electronic certificate.">본 문서는 전자적으로 발급된 공식 증빙입니다.</span></div>
+    <div class="footer-page" data-ko="3 / 3 페이지" data-en-val="Page 3 of 3">3 / 3 페이지</div>
   </div>
 
 </div>
 
-<!-- ═══ 분기 규칙 ═══ -->
-<div style="width:794px;margin:0 auto 28px;background:#1E293B;color:#94A3B8;padding:20px 28px;box-sizing:border-box;font-size:8pt;font-family:monospace;line-height:1.8;">
-  <div style="color:#F8FAFC;font-weight:700;margin-bottom:8px;">§12-13-21-3 페이지 분할 및 데이터 분기 규칙</div>
+<div class="spec-rules">
+  <div class="spec-rules-title">§12-13-21-3 페이지 분할 및 데이터 분기 규칙</div>
   <div>거래 ≤ 30건 &nbsp;→&nbsp; 1페이지 (요약+내역+직인 모두)</div>
   <div>거래 31~80건 &nbsp;→&nbsp; 1p 요약+30건 → 2p 50건+직인</div>
   <div>거래 81~130건 &nbsp;→&nbsp; 1p 요약+30건 → 2p 50건 → 3p 50건+직인</div>
@@ -421,5 +434,59 @@
   <div>출금 수수료 &nbsp;→&nbsp; 본 표에는 수신 금액만, 마지막 페이지 부록에 별도 표</div>
 </div>
 
+<script>
+  function setLang(mode, btn) {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    /* ── simple [data-ko] spans ── */
+    document.querySelectorAll('[data-ko]').forEach(el => {
+      const ko = el.dataset.ko, en = el.dataset.en;
+      if (!en) return;
+      if (mode === 'ko') el.textContent = ko;
+      else if (mode === 'en') el.textContent = en;
+      else el.textContent = ko + ' / ' + en;
+    });
+
+    /* ── title ── */
+    document.querySelectorAll('.title-main').forEach(el => {
+      if (mode === 'ko') el.textContent = '거 래 명 세 서';
+      else if (mode === 'en') el.textContent = 'Transaction Statement';
+      else el.textContent = '거래명세서 / Transaction Statement';
+    });
+    document.querySelectorAll('.title-sub').forEach(el => {
+      if (mode === 'ko') { el.textContent = 'Transaction Statement'; el.style.display = ''; }
+      else if (mode === 'en') { el.textContent = '거래명세서'; el.style.display = ''; }
+      else el.style.display = 'none';
+    });
+
+    /* ── cert ── */
+    const certMain = document.getElementById('cert-main');
+    const certSub  = document.getElementById('cert-sub');
+    if (certMain) {
+      const koTxt = '본 명세서는 위 기간 동안 발생한 거래 내역을 증명합니다.';
+      const enTxt = 'This statement certifies the transaction details for the above period.';
+      if (mode === 'ko') { certMain.textContent = koTxt; certSub.style.display = 'none'; }
+      else if (mode === 'en') { certMain.textContent = enTxt; certSub.style.display = 'none'; }
+      else { certMain.textContent = koTxt; certSub.textContent = enTxt; certSub.style.display = ''; }
+    }
+
+    /* ── company value ── */
+    document.querySelectorAll('.company-val').forEach(el => {
+      if (mode === 'en') el.textContent = 'Alpha Asset Management Co., Ltd.';
+      else el.textContent = '알파투자운용(주) / Alpha Asset Management Co., Ltd.';
+    });
+
+    /* ── notes ── */
+    document.querySelectorAll('.note-ko').forEach(el => el.style.display = (mode === 'en') ? 'none' : '');
+    document.querySelectorAll('.note-en').forEach(el => el.style.display = (mode === 'ko') ? 'none' : '');
+
+    /* ── footer page ── */
+    document.querySelectorAll('.footer-page').forEach(el => {
+      if (mode === 'en') el.textContent = el.dataset.enVal;
+      else el.textContent = el.dataset.ko;
+    });
+  }
+</script>
 </body>
 </html>

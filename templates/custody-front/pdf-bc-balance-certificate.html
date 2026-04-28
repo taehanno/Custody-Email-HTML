@@ -7,12 +7,15 @@
   <style>
     body{margin:0;background:#525659;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;font-size:10pt;color:#1E293B;}
 
-    .spec-bar{background:#0F172A;color:#94A3B8;font-size:11px;font-family:monospace;text-align:center;padding:8px 16px;letter-spacing:.04em;position:sticky;top:0;z-index:10;}
-    .spec-bar strong{color:#fff;}
+    .spec-bar{background:#0F172A;color:#94A3B8;font-size:11px;font-family:monospace;display:flex;justify-content:space-between;align-items:center;padding:8px 16px;position:sticky;top:0;z-index:10;gap:12px;}
+    .spec-info strong{color:#fff;}
+    .lang-toggle{display:flex;gap:4px;flex-shrink:0;}
+    .lang-btn{background:transparent;border:1px solid #475569;color:#94A3B8;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:11px;font-family:monospace;letter-spacing:.04em;}
+    .lang-btn.active{background:#3B82F6;border-color:#3B82F6;color:#fff;}
+    .lang-btn:hover:not(.active){border-color:#64748B;color:#CBD5E1;}
 
-    .page{width:794px;min-height:1123px;margin:28px auto;background:#fff;padding:94px 76px 94px 76px;box-sizing:border-box;box-shadow:0 4px 28px rgba(0,0,0,.45);position:relative;}
+    .page{width:794px;min-height:1123px;margin:28px auto;background:#fff;padding:94px 76px;box-sizing:border-box;box-shadow:0 4px 28px rgba(0,0,0,.45);}
 
-    /* Header */
     .doc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
     .logo-area img{height:34px;display:block;}
     .doc-meta{text-align:right;font-size:8.5pt;line-height:1.7;}
@@ -21,21 +24,19 @@
 
     hr{border:none;border-top:1px solid #E2E8F0;margin:10px 0;}
 
-    /* Title */
     .title-block{text-align:center;margin:16px 0 14px;}
-    .title-block .ko{font-size:18pt;font-weight:700;letter-spacing:.22em;color:#0F172A;margin:0;}
-    .title-block .en{font-size:9.5pt;color:#64748B;margin:3px 0 0;}
+    .title-block .t-main{font-size:18pt;font-weight:700;letter-spacing:.22em;color:#0F172A;margin:0;}
+    .title-block .t-sub{font-size:9.5pt;color:#64748B;margin:3px 0 0;}
 
-    /* Section */
     .sec{margin-bottom:12px;}
     .sec-head{font-size:8.5pt;font-weight:700;color:#0F172A;margin:0 0 5px;}
     .field{display:flex;font-size:8.5pt;line-height:1.9;}
-    .fl{width:112px;color:#64748B;flex-shrink:0;}
+    .fl{width:126px;color:#64748B;flex-shrink:0;}
     .fv{flex:1;color:#1E293B;}
+    .fv.mono{font-family:'Courier New',monospace;font-size:8pt;word-break:break-all;}
 
-    /* Table */
     table{width:100%;border-collapse:collapse;font-size:8pt;color:#1E293B;margin-bottom:6px;}
-    th{background:#F8FAFC;color:#64748B;font-weight:600;padding:5px 8px;border:1px solid #E2E8F0;text-align:left;white-space:nowrap;}
+    th{background:#F8FAFC;color:#64748B;font-weight:600;padding:5px 8px;border:1px solid #E2E8F0;text-align:left;}
     td{padding:4px 8px;border:1px solid #E2E8F0;vertical-align:middle;}
     tr:nth-child(even) td{background:#FAFAFA;}
     .r{text-align:right;}
@@ -43,34 +44,38 @@
     .sub td{font-weight:600;background:#F1F5F9;}
     .tot td{font-weight:700;background:#E2E8F0;}
 
-    /* Notes */
     .notes{font-size:7.5pt;color:#64748B;line-height:1.9;margin:4px 0 0;}
 
-    /* Cert */
     .cert{text-align:center;font-size:9pt;line-height:1.9;margin:10px 0 6px;}
-    .cert .en{color:#64748B;font-size:8.5pt;}
+    .cert-sub{color:#64748B;font-size:8.5pt;display:none;}
 
-    /* Signature */
-    .sig{text-align:right;font-size:9pt;line-height:2.1;margin:8px 0;}
-    .seal{display:inline-block;width:58px;height:58px;border:2.5px solid #C8102E;border-radius:50%;vertical-align:middle;margin-left:10px;position:relative;}
-    .seal::after{content:'직인';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8pt;color:#C8102E;}
+    .sig{text-align:right;font-size:9pt;line-height:2.1;margin:8px 0;display:flex;flex-direction:column;align-items:flex-end;}
+    .sig-inner{display:flex;align-items:center;gap:10px;}
+    .stamp-img{height:58px;width:58px;object-fit:contain;display:block;}
 
-    /* QR */
     .qr-row{display:flex;align-items:flex-start;gap:14px;margin-top:10px;padding-top:10px;border-top:1px solid #E2E8F0;}
     .qr-placeholder{width:76px;height:76px;border:1px solid #CBD5E1;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7pt;color:#94A3B8;text-align:center;}
     .qr-text{font-size:7.5pt;color:#1E293B;line-height:1.8;}
     .qr-text .lbl{color:#64748B;}
     .qr-text .mono{font-family:'Courier New',monospace;word-break:break-all;}
 
-    /* Footer */
     .doc-footer{display:flex;justify-content:space-between;align-items:center;font-size:7.5pt;color:#64748B;margin-top:10px;padding-top:7px;border-top:1px solid #E2E8F0;}
+
+    .spec-rules{width:794px;margin:0 auto 28px;background:#1E293B;color:#94A3B8;padding:20px 28px;box-sizing:border-box;font-size:8pt;font-family:monospace;line-height:1.8;}
+    .spec-rules-title{color:#F8FAFC;font-weight:700;margin-bottom:8px;}
   </style>
 </head>
 <body>
 
-<div class="spec-bar"><strong>§12-13-21-2</strong> &nbsp;│&nbsp; 잔고증명서 (Balance Certificate) &nbsp;│&nbsp; PDF 콘텐츠 명세 — HTML 프리뷰 &nbsp;│&nbsp; BC-YYYYMMDD-NNNNN</div>
+<div class="spec-bar">
+  <div class="spec-info"><strong>§12-13-21-2</strong> &nbsp;│&nbsp; 잔고증명서 (Balance Certificate) &nbsp;│&nbsp; PDF 콘텐츠 명세 — BC-YYYYMMDD-NNNNN</div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('ko',this)">국문</button>
+    <button class="lang-btn" onclick="setLang('en',this)">영문</button>
+    <button class="lang-btn" onclick="setLang('bi',this)">국+영</button>
+  </div>
+</div>
 
-<!-- ═══ PAGE 1 (단일 페이지 원칙) ═══ -->
 <div class="page">
 
   <div class="doc-header">
@@ -78,53 +83,53 @@
       <img src="../../assets/INBL%20LOGO.png" alt="INFINITEBLOCK" />
     </div>
     <div class="doc-meta">
-      <div class="lbl">문서번호</div>
+      <div class="lbl"><span data-ko="문서번호" data-en="Document No.">문서번호</span></div>
       <div class="val">BC-20260427-00001</div>
-      <div class="lbl" style="margin-top:4px;">발급일</div>
+      <div class="lbl" style="margin-top:4px;"><span data-ko="발급일" data-en="Issue Date">발급일</span></div>
       <div>2026-04-27</div>
     </div>
   </div>
   <hr />
 
   <div class="title-block">
-    <p class="ko">잔 고 증 명 서</p>
-    <p class="en">Balance Certificate</p>
+    <p class="t-main" id="t-main">잔 고 증 명 서</p>
+    <p class="t-sub" id="t-sub">Balance Certificate</p>
   </div>
   <hr />
 
   <!-- 발급 정보 -->
   <div class="sec">
-    <div class="sec-head">▣ 발급 정보</div>
-    <div class="field"><span class="fl">· 발급 일시</span><span class="fv">2026-04-27 14:30:00 KST</span></div>
-    <div class="field"><span class="fl">· 기준 일시</span><span class="fv">2026-04-27 23:59:59 KST</span></div>
-    <div class="field"><span class="fl">· 발급 용도</span><span class="fv">감사 자료 제출</span></div>
-    <div class="field"><span class="fl">· 수신처</span><span class="fv">삼정회계법인</span></div>
-    <div class="field"><span class="fl">· 발송 대상</span><span class="fv">master@company.com (Master)</span></div>
+    <div class="sec-head">▣ <span data-ko="발급 정보" data-en="Issuance Information">발급 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="발급 일시" data-en="Issued At">발급 일시</span></span><span class="fv">2026-04-27 14:30:00 KST</span></div>
+    <div class="field"><span class="fl">· <span data-ko="기준 일시" data-en="Reference Time">기준 일시</span></span><span class="fv">2026-04-27 23:59:59 KST</span></div>
+    <div class="field"><span class="fl">· <span data-ko="발급 용도" data-en="Purpose">발급 용도</span></span><span class="fv">감사 자료 제출</span></div>
+    <div class="field"><span class="fl">· <span data-ko="수신처" data-en="Recipient Org">수신처</span></span><span class="fv">삼정회계법인</span></div>
+    <div class="field"><span class="fl">· <span data-ko="발송 대상" data-en="Sent To">발송 대상</span></span><span class="fv">master@company.com (Master)</span></div>
   </div>
 
   <!-- 고객사 정보 -->
   <div class="sec">
-    <div class="sec-head">▣ 고객사 정보</div>
-    <div class="field"><span class="fl">· 고객사명</span><span class="fv">알파투자운용(주) / Alpha Asset Management Co., Ltd.</span></div>
-    <div class="field"><span class="fl">· 사업자번호</span><span class="fv">123-45-67890</span></div>
-    <div class="field"><span class="fl">· 대표자</span><span class="fv">김대표</span></div>
-    <div class="field"><span class="fl">· 본점 주소</span><span class="fv">서울특별시 강남구 ○○로 ○○</span></div>
+    <div class="sec-head">▣ <span data-ko="고객사 정보" data-en="Customer Information">고객사 정보</span></div>
+    <div class="field"><span class="fl">· <span data-ko="고객사명" data-en="Company Name">고객사명</span></span><span class="fv" id="company-val">알파투자운용(주) / Alpha Asset Management Co., Ltd.</span></div>
+    <div class="field"><span class="fl">· <span data-ko="사업자번호" data-en="Business Reg. No.">사업자번호</span></span><span class="fv">123-45-67890</span></div>
+    <div class="field"><span class="fl">· <span data-ko="대표자" data-en="Representative">대표자</span></span><span class="fv">김대표</span></div>
+    <div class="field"><span class="fl">· <span data-ko="본점 주소" data-en="Registered Address">본점 주소</span></span><span class="fv">서울특별시 강남구 ○○로 ○○</span></div>
   </div>
 
   <hr />
 
   <!-- 보유 자산 현황 -->
   <div class="sec">
-    <div class="sec-head">▣ 보유 자산 현황 (KRW 환산)</div>
+    <div class="sec-head">▣ <span data-ko="보유 자산 현황 (KRW 환산)" data-en="Asset Holdings (KRW Equivalent)">보유 자산 현황 (KRW 환산)</span></div>
     <table>
       <thead>
         <tr>
-          <th style="width:28px;">번호</th>
-          <th>지갑명</th>
-          <th>코인</th>
-          <th>네트워크</th>
-          <th class="r">잔액</th>
-          <th class="r">평가금액 (KRW)</th>
+          <th style="width:28px;"><span data-ko="번호" data-en="No.">번호</span></th>
+          <th><span data-ko="지갑명" data-en="Wallet Name">지갑명</span></th>
+          <th><span data-ko="코인" data-en="Coin">코인</span></th>
+          <th><span data-ko="네트워크" data-en="Network">네트워크</span></th>
+          <th class="r"><span data-ko="잔액" data-en="Balance">잔액</span></th>
+          <th class="r"><span data-ko="평가금액 (KRW)" data-en="Valuation (KRW)">평가금액 (KRW)</span></th>
         </tr>
       </thead>
       <tbody>
@@ -161,33 +166,39 @@
           <td class="r">₩ 19,000,000</td>
         </tr>
         <tr class="sub">
-          <td colspan="5" class="r">소 계</td>
+          <td colspan="5" class="r"><span data-ko="소 계" data-en="Subtotal">소 계</span></td>
           <td class="r">₩ 250,400,000</td>
         </tr>
         <tr class="tot">
-          <td colspan="5" class="r">총 자산</td>
+          <td colspan="5" class="r"><span data-ko="총 자산" data-en="Total Assets">총 자산</span></td>
           <td class="r">₩ 250,400,000</td>
         </tr>
       </tbody>
     </table>
     <div class="notes">
-      <div>※ 평가금액은 기준 일시의 시세 API 환산 기준입니다.</div>
-      <div>※ 보류(HOLD) 상태 입금 자산은 포함되지 않습니다.</div>
-      <div>※ 적용 시세 출처: CoinGecko / Upbit (KRW 마켓)</div>
+      <div class="note-ko">※ 평가금액은 기준 일시의 시세 API 환산 기준입니다.</div>
+      <div class="note-en" style="display:none;">※ Valuations are calculated based on the API rate at the reference time.</div>
+      <div class="note-ko">※ 보류(HOLD) 상태 입금 자산은 포함되지 않습니다.</div>
+      <div class="note-en" style="display:none;">※ Assets in HOLD status are excluded from this statement.</div>
+      <div class="note-ko">※ 적용 시세 출처: CoinGecko / Upbit (KRW 마켓)</div>
+      <div class="note-en" style="display:none;">※ Price source: CoinGecko / Upbit (KRW Market)</div>
     </div>
   </div>
 
   <hr />
 
   <div class="cert">
-    <div>본 증명서는 위 시점 기준의 보유 자산을 증명합니다.</div>
-    <div class="en">This certifies the asset holdings as of the reference time above.</div>
+    <div id="cert-main">본 증명서는 위 시점 기준의 보유 자산을 증명합니다.</div>
+    <div class="cert-sub" id="cert-sub">This certifies the asset holdings as of the reference time above.</div>
   </div>
 
   <div class="sig">
-    <div>발급일: 2026년 04월 27일</div>
-    <div>주식회사 인피닛블록</div>
-    <div>대표이사 &nbsp;○ ○ ○&nbsp;<span class="seal"></span></div>
+    <div><span data-ko="발급일:" data-en="Date of Issuance:">발급일:</span> 2026년 04월 27일</div>
+    <div id="sig-company"><span data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span></div>
+    <div class="sig-inner">
+      <span><span data-ko="대표이사" data-en="CEO">대표이사</span>&nbsp; 정구태</span>
+      <img src="../../assets/INBL%20STAMP.png" alt="직인" class="stamp-img" />
+    </div>
   </div>
 
   <hr />
@@ -195,31 +206,106 @@
   <div class="qr-row">
     <div class="qr-placeholder">QR<br/>20×20mm</div>
     <div class="qr-text">
-      <div><span class="lbl">검증 URL: </span><span class="mono">https://inbl.io/verify/BC-20260427-00001?code=A1B2C3D4</span></div>
-      <div><span class="lbl">검증 코드: </span><strong>A1B2-C3D4</strong></div>
+      <div><span class="lbl"><span data-ko="검증 URL:" data-en="Verification URL:">검증 URL:</span> </span><span class="mono">https://inbl.io/verify/BC-20260427-00001?code=A1B2C3D4</span></div>
+      <div><span class="lbl"><span data-ko="검증 코드:" data-en="Verification Code:">검증 코드:</span> </span><strong>A1B2-C3D4</strong></div>
     </div>
   </div>
 
   <div class="doc-footer">
-    <div>주식회사 인피닛블록 &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
-    <div>본 문서는 전자적으로 발급된 공식 증빙입니다.</div>
-    <div>1 / 1 페이지</div>
+    <div><span class="footer-company" data-ko="주식회사 인피닛블록" data-en="INFINITEBLOCK Co., Ltd.">주식회사 인피닛블록</span> &nbsp;│&nbsp; www.inbl.io &nbsp;│&nbsp; 02-XXXX-XXXX</div>
+    <div><span id="footer-cert" data-ko="본 문서는 전자적으로 발급된 공식 증빙입니다." data-en="This document is an officially issued electronic certificate.">본 문서는 전자적으로 발급된 공식 증빙입니다.</span></div>
+    <div id="footer-page">1 / 1 페이지</div>
   </div>
 
 </div>
 
-<!-- ═══ 분기 규칙 명세 ═══ -->
-<div style="width:794px;margin:0 auto 28px;background:#1E293B;color:#94A3B8;padding:20px 28px;box-sizing:border-box;font-size:8pt;font-family:monospace;line-height:1.8;">
-  <div style="color:#F8FAFC;font-weight:700;margin-bottom:8px;">§12-13-21-2 데이터 분기 규칙</div>
-  <div style="color:#64748B;">보유 코인 &gt; 20개 &nbsp;→&nbsp; <span style="color:#FCD34D;">표를 다음 페이지로 분할, 헤더/푸터 반복</span></div>
+<div class="spec-rules">
+  <div class="spec-rules-title">§12-13-21-2 데이터 분기 규칙</div>
+  <div>보유 코인 &gt; 20개 &nbsp;→&nbsp; <span style="color:#FCD34D;">표를 다음 페이지로 분할, 헤더/푸터 반복</span></div>
   <div>발급 범위 = 고객사 전체 지갑 &nbsp;→&nbsp; 모든 활성 지갑 자동 포함</div>
-  <div>발급 범위 = 특정 지갑 선택 &nbsp;→&nbsp; 선택 지갑만 + 발급정보에 "선택 지갑: N개" 추가</div>
+  <div>발급 범위 = 특정 지갑 선택 &nbsp;→&nbsp; 선택 지갑만 + 발급 정보에 "선택 지갑: N개" 추가</div>
   <div>잔액 = 0 &nbsp;→&nbsp; 표에서 제외</div>
   <div>보류 상태 입금 &nbsp;→&nbsp; 제외 + ※ 표기</div>
-  <div>시세 조회 실패 &nbsp;→&nbsp; <span style="color:#FCA5A5;">평가금액 "—" + ※ "시세 조회 불가 항목 있음"</span></div>
-  <div>영문 발급 (ENG) &nbsp;→&nbsp; 모든 항목 영문 / 고객사명 영문 KYB 우선</div>
-  <div>국·영문 병기 &nbsp;→&nbsp; 항목명 국문 / English 2줄, 데이터 단일 표기</div>
+  <div>시세 조회 실패 &nbsp;→&nbsp; <span style="color:#FCA5A5;">평가금액 칸 "—" + ※ "시세 조회 불가 항목 있음"</span></div>
+  <div>영문 발급 (ENG) &nbsp;→&nbsp; 모든 항목 영문 / 고객사명 KYB 영문명 우선</div>
+  <div>국·영문 병기 &nbsp;→&nbsp; 항목명 국문 / English, 본문 데이터는 단일 표기</div>
 </div>
 
+<script>
+  const KO = {
+    'title.main': '잔 고 증 명 서',
+    'title.sub': 'Balance Certificate',
+    'cert.main': '본 증명서는 위 시점 기준의 보유 자산을 증명합니다.',
+    'cert.en': 'This certifies the asset holdings as of the reference time above.',
+    'company.val': '알파투자운용(주) / Alpha Asset Management Co., Ltd.',
+    'footer.page': '1 / 1 페이지',
+  };
+  const EN = {
+    'title.main': 'Balance Certificate',
+    'title.sub': '잔고증명서',
+    'cert.main': 'This certifies the asset holdings as of the reference time above.',
+    'cert.en': '',
+    'company.val': 'Alpha Asset Management Co., Ltd.',
+    'footer.page': 'Page 1 of 1',
+  };
+
+  function setLang(mode, btn) {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    /* ── simple data-ko / data-en spans ── */
+    document.querySelectorAll('[data-ko]').forEach(el => {
+      const ko = el.dataset.ko, en = el.dataset.en;
+      if (mode === 'ko') el.textContent = ko;
+      else if (mode === 'en') el.textContent = en;
+      else el.textContent = ko + ' / ' + en;
+    });
+
+    /* ── title ── */
+    const tMain = document.getElementById('t-main');
+    const tSub  = document.getElementById('t-sub');
+    if (mode === 'ko') {
+      tMain.textContent = KO['title.main'];
+      tSub.textContent  = KO['title.sub'];
+      tSub.style.display = '';
+    } else if (mode === 'en') {
+      tMain.textContent = EN['title.main'];
+      tSub.textContent  = EN['title.sub'];
+      tSub.style.display = '';
+    } else {
+      tMain.textContent = '잔고증명서 / Balance Certificate';
+      tSub.style.display = 'none';
+    }
+
+    /* ── cert ── */
+    const certMain = document.getElementById('cert-main');
+    const certSub  = document.getElementById('cert-sub');
+    if (mode === 'ko') {
+      certMain.textContent = KO['cert.main'];
+      certSub.style.display = 'none';
+    } else if (mode === 'en') {
+      certMain.textContent = EN['cert.main'];
+      certSub.style.display = 'none';
+    } else {
+      certMain.textContent = KO['cert.main'];
+      certSub.textContent  = EN['cert.main'];
+      certSub.style.display = '';
+    }
+
+    /* ── company value (data field) ── */
+    const companyVal = document.getElementById('company-val');
+    if (mode === 'ko') companyVal.textContent = '알파투자운용(주) / Alpha Asset Management Co., Ltd.';
+    else if (mode === 'en') companyVal.textContent = 'Alpha Asset Management Co., Ltd.';
+    else companyVal.textContent = '알파투자운용(주) / Alpha Asset Management Co., Ltd.';
+
+    /* ── notes ── */
+    document.querySelectorAll('.note-ko').forEach(el => el.style.display = (mode === 'en') ? 'none' : '');
+    document.querySelectorAll('.note-en').forEach(el => el.style.display = (mode === 'ko') ? 'none' : '');
+
+    /* ── footer page ── */
+    const fp = document.getElementById('footer-page');
+    if (fp) fp.textContent = (mode === 'en') ? 'Page 1 of 1' : '1 / 1 페이지';
+  }
+</script>
 </body>
 </html>
