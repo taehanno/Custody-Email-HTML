@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[Crypton.one] Master 이메일이 변경되었습니다 — 임시 비밀번호 안내</title>
+  <title>[Crypton.one] ⚠ Master 이메일이 변경되었습니다 — 보안 확인</title>
   <style>
     body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
     table,td{mso-table-lspace:0pt;mso-table-rspace:0pt;}
@@ -19,30 +19,32 @@
     .company{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;letter-spacing:0.08em;text-transform:uppercase;}
 
     .body{padding:36px 40px;}
-    .greeting{font-size:15px;font-weight:600;color:#0d1117;margin:0 0 4px;}
-    .body-lead{font-size:14px;color:#374151;margin:0 0 24px;line-height:1.6;}
+    .body-lead{font-size:15px;font-weight:600;color:#0d1117;margin:0 0 6px;}
+    .body-sub{font-size:14px;color:#374151;margin:0 0 24px;line-height:1.6;}
     .body p{font-size:14px;line-height:1.75;color:#374151;margin:0 0 14px;}
 
-    .info-box{background:#f8faff;border:1px solid #dbeafe;border-radius:8px;padding:0 20px;margin:20px 0;}
-    .info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:13px;border-bottom:1px solid #e8eef8;}
+    .info-box{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:0 20px;margin:0 0 20px;}
+    .info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:13px;border-bottom:1px solid #fef3c7;}
     .info-row:last-child{border-bottom:none;}
     .info-label{color:#6b7280;font-weight:500;white-space:nowrap;margin-right:16px;}
     .info-value{color:#0d1117;font-weight:600;text-align:right;word-break:break-all;}
-    .info-value.pw{font-family:'Courier New',monospace;font-size:14px;letter-spacing:0.06em;color:#1d4ed8;}
+    .info-value.old{color:#6b7280;text-decoration:line-through;}
+    .info-value.new{color:#1d4ed8;}
+    .info-value.reason{font-weight:500;color:#374151;text-align:right;line-height:1.6;max-width:60%;}
 
-    .steps-title{font-size:13px;font-weight:700;color:#0d1117;margin:24px 0 10px;}
-    .steps-box{background:#f0f9ff;border-left:3px solid #38bdf8;border-radius:0 6px 6px 0;padding:14px 18px;margin:0 0 20px;}
-    .steps-box ol{margin:0;padding:0 0 0 18px;}
-    .steps-box li{font-size:13px;color:#0c4a6e;line-height:1.8;}
+    .actions-title{font-size:13px;font-weight:700;color:#0d1117;margin:24px 0 10px;}
+    .actions-box{background:#fff5f5;border-left:3px solid #ef4444;border-radius:0 6px 6px 0;padding:12px 18px;margin:0 0 20px;}
+    .actions-box ul{margin:0;padding:0 0 0 16px;}
+    .actions-box li{font-size:13px;color:#7f1d1d;line-height:1.85;}
+
+    .info-note{background:#f0f9ff;border-left:3px solid #38bdf8;border-radius:0 6px 6px 0;padding:12px 16px;margin:20px 0;}
+    .info-note p{font-size:13px;color:#0c4a6e;margin:0;line-height:1.7;}
 
     .warn-box{background:#fff5f5;border-left:3px solid #ef4444;border-radius:0 6px 6px 0;padding:12px 16px;margin:20px 0;}
     .warn-box p{font-size:13px;color:#7f1d1d;margin:0;line-height:1.7;}
 
     .cta-wrap{text-align:center;margin:28px 0 8px;}
-    .cta-btn{display:inline-block;background:#3b5bdb;color:#ffffff!important;text-decoration:none;font-size:14px;font-weight:700;padding:14px 44px;border-radius:8px;letter-spacing:0.01em;}
-
-    .contact-note{font-size:13px;color:#6b7280;margin:18px 0 0;line-height:1.7;}
-    .contact-note a{color:#3b5bdb;text-decoration:underline;}
+    .cta-btn{display:inline-block;background:#ef4444;color:#ffffff!important;text-decoration:none;font-size:14px;font-weight:700;padding:14px 44px;border-radius:8px;letter-spacing:0.01em;}
 
     .security{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:16px 20px;margin:0 40px 24px;}
     .security-title{font-size:12px;font-weight:700;color:#92400e;margin-bottom:8px;}
@@ -64,8 +66,8 @@
   </div>
 
   <div class="body">
-    <p class="greeting">안녕하세요, {고객사명} Master님.</p>
-    <p class="body-lead">Master 계정 이메일이 변경되었습니다.<br />아래 임시 비밀번호로 로그인 후 신규 비밀번호 설정 및 OTP 재등록을 진행해 주세요.</p>
+    <p class="body-lead">⚠ {고객사명} Master 계정 이메일이 변경되었습니다.</p>
+    <p class="body-sub">본인이 요청하지 않은 변경인 경우 즉시 문의해 주세요.</p>
 
     <div class="info-box">
       <div class="info-row">
@@ -73,41 +75,48 @@
         <span class="info-value">{고객사명}</span>
       </div>
       <div class="info-row">
-        <span class="info-label">새 이메일 (로그인 ID)</span>
-        <span class="info-value">{신규 이메일}</span>
+        <span class="info-label">이전 이메일</span>
+        <span class="info-value old">{이전 이메일}</span>
       </div>
       <div class="info-row">
-        <span class="info-label">임시 비밀번호</span>
-        <span class="info-value pw">{임시PW}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">유효 기간</span>
-        <span class="info-value">발급 후 24시간</span>
+        <span class="info-label">변경된 이메일</span>
+        <span class="info-value new">ne***@new-corp.com</span>
       </div>
       <div class="info-row">
         <span class="info-label">변경 일시</span>
         <span class="info-value">{YY-MM-DD hh:mm} KST</span>
       </div>
+      <div class="info-row">
+        <span class="info-label">처리자</span>
+        <span class="info-value">{Admin 처리자 이름 마스킹}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">변경 사유</span>
+        <span class="info-value reason">{변경 사유 요약, 100자 이내}</span>
+      </div>
     </div>
 
-    <p class="steps-title">최초 로그인 시 다음 단계가 자동 진행됩니다</p>
-    <div class="steps-box">
-      <ol>
-        <li>비밀번호 강제 변경</li>
-        <li>OTP 앱 재등록 (Google Authenticator 등)</li>
-        <li>정상 진입</li>
-      </ol>
+    <p class="actions-title">⚠ 변경과 함께 다음 처리가 완료되었습니다</p>
+    <div class="actions-box">
+      <ul>
+        <li>기존 비밀번호 무효화</li>
+        <li>기존 OTP 등록 정보 초기화</li>
+        <li>기존 로그인 세션 강제 종료</li>
+        <li>신규 이메일로 임시 비밀번호 발송</li>
+      </ul>
+    </div>
+
+    <div class="info-note">
+      <p>ⓘ 본인 요청에 의한 변경인 경우 별도 조치는 필요하지 않습니다.</p>
     </div>
 
     <div class="warn-box">
-      <p>⚠ 24시간 경과 시 임시 비밀번호가 자동 만료됩니다.<br />만료 시 인피닛블록 담당자에게 재발송을 요청해 주세요.</p>
+      <p>⚠ 본인이 요청하지 않은 변경인 경우 즉시 인피닛블록 CS (<a href="mailto:contact@inbl.io" style="color:#7f1d1d;text-decoration:underline;">contact@inbl.io</a>) 로 문의해 주세요.</p>
     </div>
 
     <div class="cta-wrap">
-      <a href="https://crypton.one/login" class="cta-btn">Crypton.one 로그인 →</a>
+      <a href="mailto:contact@inbl.io" class="cta-btn">인피닛블록 CS 문의</a>
     </div>
-
-    <p class="contact-note">ⓘ 본인이 요청하지 않은 변경인 경우 즉시 인피닛블록 CS (<a href="mailto:contact@inbl.io">contact@inbl.io</a>) 로 문의해 주세요.</p>
   </div>
 
   <div class="security">
